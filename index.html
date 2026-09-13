@@ -31,10 +31,10 @@ footer{padding:28px;text-align:center;color:var(--muted);font-size:13px}.modal{d
 </div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL="PASTE_YOUR_SUPABASE_URL";https://dkzdgsuawotvcmemkclm.supabase.co
-const SUPABASE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY";sb_publishable_YBsJaTGSo8kQTAxd3Ww-ZA_Q-WMnNKy
-const OWNER_EMAIL="OWNER_EMAIL";sameerpatel2035@gmail.com
-const configured=!SUPABASE_URL.startsWith("https://dkzdgsuawotvcmemkclm.supabase.co")&&!SUPABASE_KEY.startsWith("sb_publishable_YBsJaTGSo8kQTAxd3Ww-ZA_Q-WMnNKy")&&!OWNER_EMAIL.startsWith("sameerpatel2035@gmail.com");
+const SUPABASE_URL="PASTE_YOUR_SUPABASE_URL";
+const SUPABASE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY";
+const OWNER_EMAIL="OWNER_EMAIL";
+const configured=!SUPABASE_URL.startsWith("PASTE_")&&!SUPABASE_KEY.startsWith("PASTE_")&&!OWNER_EMAIL.startsWith("OWNER_");
 const sb=configured?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;let products=[];
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 async function load(){if(!sb){products=[];render();return}let r=await sb.from("products").select("*").order("created_at",{ascending:false});products=r.data||[];render()}
