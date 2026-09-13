@@ -2,7 +2,7 @@ QIVORA V3
 =========
 Mobile-friendly storefront with an Owner Panel.
 
-Demo owner password: QIVORA2026
+Demo owner password: SIMRAN2005
 IMPORTANT: Change ADMIN_PASSWORD in index.html before publishing.
 
 Product fields:
