@@ -1,98 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="QIVORA - Discover products and shop through trusted Meesho links.">
-<meta name="robots" content="index,follow">
-<title>QIVORA | Online Shopping</title>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="QIVORA - Discover products and shop through Meesho affiliate links.">
+<meta name="robots" content="index,follow"><title>QIVORA | Online Shopping</title>
 <style>
-:root{--bg:#f7f7fb;--card:#fff;--text:#17171c;--muted:#6d6d78;--brand:#6c2bd9;--brand2:#8c4cff;--line:#e8e8ef;--danger:#d33}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);padding:14px 18px}
-.nav{max-width:1180px;margin:auto;display:flex;align-items:center;gap:14px}.logo{font-size:24px;font-weight:900;color:var(--brand);letter-spacing:.5px}.spacer{flex:1}
+:root{--bg:#f7f7fb;--card:#fff;--text:#17171c;--muted:#6d6d78;--brand:#6c2bd9;--line:#e8e8ef;--danger:#d33}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);padding:14px 18px}.nav{max-width:1180px;margin:auto;display:flex;align-items:center;gap:14px}.logo{font-size:24px;font-weight:900;color:var(--brand)}.spacer{flex:1}
 button,input,select{font:inherit}button{border:0;cursor:pointer}.btn{padding:10px 14px;border-radius:10px;font-weight:700}.primary{background:var(--brand);color:#fff}.ghost{background:#f0ebff;color:var(--brand)}
-.hero{max-width:1180px;margin:24px auto 0;padding:28px 18px;border-radius:20px;background:linear-gradient(135deg,#f0eaff,#fff);}.hero h1{margin:0 0 8px;font-size:clamp(28px,5vw,46px)}.hero p{margin:0;color:var(--muted)}
+.hero{max-width:1180px;margin:24px auto 0;padding:28px 18px;border-radius:20px;background:linear-gradient(135deg,#f0eaff,#fff)}.hero h1{margin:0 0 8px;font-size:clamp(28px,5vw,46px)}.hero p{margin:0;color:var(--muted)}
 .controls{max-width:1180px;margin:18px auto;padding:0 18px;display:flex;gap:10px;flex-wrap:wrap}.controls input,.controls select{background:#fff;border:1px solid var(--line);padding:11px 13px;border-radius:10px;min-width:190px}
-.grid{max-width:1180px;margin:0 auto;padding:0 18px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}.pic{width:100%;aspect-ratio:1/1;background:#eee;object-fit:cover}.body{padding:13px}.cat{font-size:12px;color:var(--brand);font-weight:800}.name{font-weight:800;margin:5px 0 8px;line-height:1.25}.price{font-size:19px;font-weight:900}.actions{display:flex;gap:8px;margin-top:12px}.actions .btn{flex:1}.empty{text-align:center;color:var(--muted);padding:50px 15px;grid-column:1/-1}
-footer{padding:28px;text-align:center;color:var(--muted);font-size:13px}
-.modal{display:none;position:fixed;inset:0;background:#0008;z-index:30;padding:18px;overflow:auto}.modal.show{display:block}.panel{max-width:720px;margin:30px auto;background:#fff;border-radius:18px;padding:20px}.panel h2{margin-top:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:5px}.field input,.field select{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px}.preview{width:100px;height:100px;object-fit:cover;border-radius:10px;display:none;margin-top:8px}.admin-list{display:grid;gap:8px;margin-top:15px}.admin-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px}.admin-item img{width:54px;height:54px;object-fit:cover;border-radius:8px}.admin-item .spacer{flex:1}.notice{padding:10px 12px;background:#fff5d6;border-radius:10px;color:#6d5300;font-size:13px;margin:12px 0}
-@media(max-width:600px){.row{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-left:10px;padding-right:10px}.card{border-radius:12px}.body{padding:10px}.actions{flex-direction:column}.controls{padding:0 10px}.controls input,.controls select{width:100%}.hero{margin:12px 10px 0;padding:22px 16px}}
-</style>
-</head>
-<body>
+.grid{max-width:1180px;margin:0 auto;padding:0 18px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}.pic{width:100%;aspect-ratio:1;object-fit:cover;background:#eee}.body{padding:13px}.cat{font-size:12px;color:var(--brand);font-weight:800}.name{font-weight:800;margin:5px 0 8px}.price{font-size:19px;font-weight:900}.actions{display:flex;gap:8px;margin-top:12px}.actions .btn{flex:1;text-align:center;text-decoration:none}.empty{text-align:center;color:var(--muted);padding:50px 15px;grid-column:1/-1}
+footer{padding:28px;text-align:center;color:var(--muted);font-size:13px}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:30;padding:18px;overflow:auto}.modal.show{display:block}.panel{max-width:760px;margin:30px auto;background:#fff;border-radius:18px;padding:20px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:5px}.field input{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px}.preview{width:100px;height:100px;object-fit:cover;border-radius:10px;display:none;margin-top:8px}.admin-list{display:grid;gap:8px;margin-top:15px}.admin-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px}.admin-item img{width:54px;height:54px;object-fit:cover;border-radius:8px}.status{font-size:13px;color:var(--muted);margin-top:8px}.notice{padding:10px 12px;background:#fff5d6;border-radius:10px;color:#6d5300;font-size:13px;margin:12px 0}
+@media(max-width:600px){.row{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 10px 40px}.controls{padding:0 10px}.controls input,.controls select{width:100%}.hero{margin:12px 10px 0;padding:22px 16px}}
+</style></head><body>
 <header><div class="nav"><div class="logo">QIVORA</div><div class="spacer"></div><button class="btn ghost" onclick="openAdmin()">🔐 Owner</button></div></header>
+<section class="hero"><h1>Discover. Click. Shop.</h1><p>Browse products and tap <b>BUY NOW</b> to continue to the seller's Meesho page.</p></section>
+<div class="controls"><input id="search" placeholder="🔍 Search products..." oninput="render()"><select id="category" onchange="render()"><option value="">All categories</option></select></div>
+<main id="grid" class="grid"></main><footer>© <span id="year"></span> QIVORA. Purchases are completed on the linked seller website.</footer>
 
-<section class="hero"><h1>Discover. Click. Shop.</h1><p>Browse products and use <b>BUY NOW</b> to continue to the seller's Meesho page.</p></section>
-<div class="controls">
-<input id="search" placeholder="🔍 Search products..." oninput="render()">
-<select id="category" onchange="render()"><option value="">All categories</option></select>
-</div>
-<main id="grid" class="grid"></main>
-<footer>© <span id="year"></span> QIVORA. Product purchases are completed on the linked seller website.</footer>
-
-<div id="adminModal" class="modal">
-<div class="panel">
+<div id="modal" class="modal"><div class="panel">
 <div style="display:flex;align-items:center"><h2>QIVORA Owner Panel</h2><div class="spacer"></div><button class="btn ghost" onclick="closeAdmin()">✕</button></div>
-<div id="loginBox">
-<p>Private owner access.</p>
-<div class="field"><label>Owner password</label><input id="adminPass" type="password" placeholder="Enter password"></div>
-<button class="btn primary" onclick="login()">Login</button>
-</div>
-<div id="adminBox" style="display:none">
-<div class="notice">Static GitHub/Netlify hosting stores products in this browser. For true server-side private authentication and shared products across devices, connect a backend/database.</div>
-<div class="row">
-<div class="field"><label>Product name</label><input id="pName" placeholder="e.g. Men's Shirt"></div>
-<div class="field"><label>Price</label><input id="pPrice" placeholder="₹299"></div>
-</div>
-<div class="row">
-<div class="field"><label>Category</label><input id="pCat" placeholder="Fashion"></div>
-<div class="field"><label>Photo URL</label><input id="pImg" placeholder="https://..." oninput="preview()"></div>
-</div>
-<div class="field"><label>Meesho commission / affiliate link</label><input id="pLink" placeholder="Paste your Meesho tracking link"></div>
-<img id="imgPreview" class="preview">
-<div class="actions"><button class="btn primary" onclick="saveProduct()">➕ Add product</button><button class="btn ghost" onclick="logout()">Logout</button></div>
-<h3>Products</h3><div id="adminList" class="admin-list"></div>
-</div>
+<div id="loginBox"><p>Owner sign-in</p><div class="field"><label>Email</label><input id="email" type="email"></div><div class="field"><label>Password</label><input id="pass" type="password"></div><button class="btn primary" onclick="login()">Login</button><div id="loginStatus" class="status"></div></div>
+<div id="adminBox" style="display:none"><div class="notice">Products are shared through Supabase. Public visitors can read them; only the configured owner can add or delete.</div>
+<div class="row"><div class="field"><label>Product name</label><input id="name"></div><div class="field"><label>Price</label><input id="price" placeholder="₹299"></div></div>
+<div class="row"><div class="field"><label>Category</label><input id="cat" placeholder="Fashion"></div><div class="field"><label>Product photo</label><input id="file" type="file" accept="image/*" onchange="preview()"></div></div>
+<div class="field"><label>Meesho commission/affiliate link</label><input id="link" placeholder="Paste your Meesho tracking link"></div>
+<img id="previewImg" class="preview"><div class="actions"><button class="btn primary" onclick="addProduct()">➕ Add product</button><button class="btn ghost" onclick="logout()">Logout</button></div><div id="saveStatus" class="status"></div>
+<h3>Products</h3><div id="adminList" class="admin-list"></div></div>
 </div></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const ADMIN_PASSWORD="QIVORA2026"; // Change this before publishing.
-const defaultProducts=[
-{name:"Featured Meesho Product",price:"₹—",category:"Featured",img:"https://via.placeholder.com/600x600?text=QIVORA",link:"https://www.meesho.com/af_invite/94791742:instagram_stories:10638523?p_id=953053584&ext_id=frf8uo&utm_source=instagram_stories"}
-];
-let products=JSON.parse(localStorage.getItem("qivora_products")||"null")||defaultProducts;
-
-function save(){localStorage.setItem("qivora_products",JSON.stringify(products))}
-function render(){
- const q=document.getElementById("search").value.toLowerCase(), c=document.getElementById("category").value;
- const cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();
- const sel=document.getElementById("category"), old=sel.value;
- sel.innerHTML='<option value="">All categories</option>'+cats.map(x=>`<option>${esc(x)}</option>`).join('');
- if(cats.includes(old)) sel.value=old;
- const list=products.filter(p=>(!q||(`${p.name} ${p.category}`.toLowerCase().includes(q)))&&(!c||p.category===c));
- document.getElementById("grid").innerHTML=list.length?list.map((p,i)=>`<article class="card">
-<img class="pic" src="${esc(p.img)}" alt="${esc(p.name)}" onerror="this.src='https://via.placeholder.com/600x600?text=QIVORA'">
-<div class="body"><div class="cat">${esc(p.category||"Product")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div>
-<div class="actions"><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.link)}">🛒 BUY NOW</a></div></div></article>`).join(''):'<div class="empty">No products found.</div>';
- document.getElementById("year").textContent=new Date().getFullYear();
-}
-function openAdmin(){document.getElementById("adminModal").classList.add("show");if(sessionStorage.qivora_admin==="1")showAdmin()}
-function closeAdmin(){document.getElementById("adminModal").classList.remove("show")}
-function login(){if(document.getElementById("adminPass").value===ADMIN_PASSWORD){sessionStorage.qivora_admin="1";showAdmin()}else alert("Incorrect password")}
-function logout(){sessionStorage.removeItem("qivora_admin");document.getElementById("adminBox").style.display="none";document.getElementById("loginBox").style.display="block"}
+const SUPABASE_URL="PASTE_YOUR_SUPABASE_URL";
+const SUPABASE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY";
+const OWNER_EMAIL="OWNER_EMAIL";
+const configured=!SUPABASE_URL.startsWith("PASTE_")&&!SUPABASE_KEY.startsWith("PASTE_")&&!OWNER_EMAIL.startsWith("OWNER_");
+const sb=configured?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;let products=[];
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+async function load(){if(!sb){products=[];render();return}let r=await sb.from("products").select("*").order("created_at",{ascending:false});products=r.data||[];render()}
+function render(){let q=document.getElementById("search").value.toLowerCase(),c=document.getElementById("category").value;let cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort(),s=document.getElementById("category"),old=s.value;s.innerHTML='<option value="">All categories</option>'+cats.map(x=>'<option>'+esc(x)+'</option>').join('');if(cats.includes(old))s.value=old;let list=products.filter(p=>(!q||(`${p.name} ${p.category}`).toLowerCase().includes(q))&&(!c||p.category===c));document.getElementById("grid").innerHTML=list.length?list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}"><div class="body"><div class="cat">${esc(p.category)}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`).join(''):'<div class="empty">No products found.</div>';document.getElementById("year").textContent=new Date().getFullYear()}
+function openAdmin(){document.getElementById("modal").classList.add("show");if(!configured)document.getElementById("loginStatus").textContent="Supabase is not configured yet.";else check()}
+function closeAdmin(){document.getElementById("modal").classList.remove("show")}
+async function check(){let r=await sb.auth.getSession();if(r.data.session?.user?.email===OWNER_EMAIL)showAdmin()}
+async function login(){let email=document.getElementById("email").value.trim(),password=document.getElementById("pass").value;document.getElementById("loginStatus").textContent="Signing in...";let r=await sb.auth.signInWithPassword({email,password});if(r.error){document.getElementById("loginStatus").textContent=r.error.message;return}if(r.data.user.email!==OWNER_EMAIL){await sb.auth.signOut();document.getElementById("loginStatus").textContent="Not the owner account.";return}showAdmin()}
 function showAdmin(){document.getElementById("loginBox").style.display="none";document.getElementById("adminBox").style.display="block";renderAdmin()}
-function preview(){const u=document.getElementById("pImg").value, im=document.getElementById("imgPreview");im.src=u;im.style.display=u?"block":"none"}
-function saveProduct(){
- const p={name:document.getElementById("pName").value.trim(),price:document.getElementById("pPrice").value.trim(),category:document.getElementById("pCat").value.trim()||"Other",img:document.getElementById("pImg").value.trim(),link:document.getElementById("pLink").value.trim()};
- if(!p.name||!p.img||!p.link){alert("Name, Photo URL and Meesho link are required.");return}
- products.unshift(p);save();render();renderAdmin();["pName","pPrice","pCat","pImg","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("imgPreview").style.display="none";
-}
-function del(i){if(confirm("Delete this product?")){products.splice(i,1);save();render();renderAdmin()}}
-function renderAdmin(){document.getElementById("adminList").innerHTML=products.map((p,i)=>`<div class="admin-item"><img src="${esc(p.img)}"><div><b>${esc(p.name)}</b><div style="font-size:12px;color:#777">${esc(p.price)} · ${esc(p.category)}</div></div><div class="spacer"></div><button class="btn" style="background:#fee;color:var(--danger)" onclick="del(${i})">Delete</button></div>`).join('')}
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-render();
-</script>
-</body>
-</html>
+async function logout(){await sb.auth.signOut();document.getElementById("adminBox").style.display="none";document.getElementById("loginBox").style.display="block"}
+function preview(){let f=document.getElementById("file").files[0],im=document.getElementById("previewImg");if(f){im.src=URL.createObjectURL(f);im.style.display="block"}}
+async function addProduct(){let name=document.getElementById("name").value.trim(),price=document.getElementById("price").value.trim(),category=document.getElementById("cat").value.trim()||"Other",link=document.getElementById("link").value.trim(),file=document.getElementById("file").files[0];if(!name||!link||!file){alert("Name, photo and Meesho link are required.");return}let st=document.getElementById("saveStatus");st.textContent="Uploading photo...";let path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"");let up=await sb.storage.from("product-images").upload(path,file,{contentType:file.type});if(up.error){st.textContent=up.error.message;return}let url=sb.storage.from("product-images").getPublicUrl(path).data.publicUrl;let ins=await sb.from("products").insert({name,price,category,image_url:url,meesho_link:link});if(ins.error){st.textContent=ins.error.message;return}st.textContent="Product added successfully.";["name","price","cat","link"].forEach(id=>document.getElementById(id).value="");document.getElementById("file").value="";document.getElementById("previewImg").style.display="none";await load();renderAdmin()}
+async function removeProduct(id){if(!confirm("Delete this product?"))return;let r=await sb.from("products").delete().eq("id",id);if(r.error)alert(r.error.message);await load();renderAdmin()}
+function renderAdmin(){document.getElementById("adminList").innerHTML=products.map(p=>`<div class="admin-item"><img src="${esc(p.image_url)}"><div><b>${esc(p.name)}</b><div style="font-size:12px;color:#777">${esc(p.price)} · ${esc(p.category)}</div></div><div class="spacer"></div><button class="btn" style="background:#fee;color:var(--danger)" onclick="removeProduct(${p.id})">Delete</button></div>`).join("")}
+load();
+</script></body></html>
