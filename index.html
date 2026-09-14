@@ -21,16 +21,39 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
 </style>
 <style id="qivora-app-ui">
 #qAppBar{display:none}
+.q-menu{display:none}
 @media(max-width:650px){
-  #qAppBar{display:flex;position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid #eee;
-  padding:9px 10px;align-items:center;gap:8px}
-  #qAppBar .qlogo{font-weight:900;color:#6c2bd9;font-size:20px}
-  #qAppBar input{flex:1;border:1px solid #ddd;background:#f7f7f7;border-radius:11px;padding:10px}
-  #qAppBar button{background:#f1eaff;border:0;border-radius:10px;padding:9px}
-  #qAppNav{position:fixed;bottom:0;left:0;right:0;z-index:1100;background:#fff;border-top:1px solid #ddd;
-  display:flex;justify-content:space-around;padding:6px 2px}
-  #qAppNav button{background:none;border:0;font-size:11px;padding:4px 10px}
-  body{padding-bottom:48px}
+  #qAppBar{display:flex;position:sticky;top:0;z-index:2100;background:#fff;border-bottom:1px solid #e5e5e9;padding:11px 12px;align-items:center;gap:10px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  #qAppBar .qlogo{font-weight:950;color:#6c2bd9;font-size:23px;letter-spacing:-.5px}
+  #qAppBar input{flex:1;min-width:0;border:1px solid #ddd;background:#f7f7f8;border-radius:13px;padding:12px 13px;font-size:16px;outline:none}
+  #qAppBar input:focus{border-color:#b99be9;box-shadow:0 0 0 3px #eee6ff}
+  #qAppBar .qmenu-btn{background:#f1eaff;color:#6c2bd9;border:0;border-radius:12px;padding:10px 12px;font-size:20px;font-weight:900}
+  #qMenu{position:absolute;right:10px;top:62px;width:215px;background:#fff;border:1px solid #e3e3e8;border-radius:15px;padding:8px;box-shadow:0 14px 35px rgba(0,0,0,.16);display:none}
+  #qMenu.show{display:grid;gap:4px}
+  #qMenu button{background:#fff;text-align:left;border:0;border-radius:10px;padding:12px;font-size:14px;font-weight:800;color:#333}
+  #qMenu button:hover{background:#f4efff;color:#6c2bd9}
+  header{display:none}
+  .container{padding:0 12px}
+  .hero{margin:14px 12px 0;padding:25px 20px;border-radius:20px}
+  .hero h1{font-size:34px}
+  .hero p{font-size:15px}
+  .section-head{margin-top:24px}
+  .section-head h2{font-size:23px}
+  .chip{font-size:14px;padding:10px 15px}
+  .controls{margin:14px 0 20px}
+  .controls input,.controls select{font-size:16px;padding:13px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-bottom:45px}
+  .card{border-radius:16px}
+  .body{padding:14px}
+  .name{font-size:15px;min-height:40px}
+  .price{font-size:21px}
+  .actions{gap:7px;flex-wrap:wrap}
+  .actions .btn{font-size:13px;padding:11px 8px}
+  .heart{width:42px;height:42px;font-size:21px}
+  #qAppNav{position:fixed;bottom:0;left:0;right:0;z-index:2050;background:#fff;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -4px 18px rgba(0,0,0,.08)}
+  #qAppNav button{background:none;border:0;font-size:13px;font-weight:800;color:#444;padding:5px 13px;min-width:70px}
+  #qAppNav button:active{color:#6c2bd9}
+  body{padding-bottom:74px}
 }
 </style>
 
@@ -54,9 +77,15 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
 
 </head><body>
 <div id="qAppBar">
-  <div class="qlogo">Q</div>
+  <div class="qlogo">QIVORA</div>
   <input id="qMobileSearch" placeholder="Search products..." oninput="qSearch(this.value)">
-  <button onclick="openCustomerAuth()">👤</button>
+  <button type="button" class="qmenu-btn" onclick="toggleQMenu()">☰</button>
+  <div id="qMenu" class="q-menu">
+    <button type="button" onclick="openProfile();closeQMenu()">👤 My Profile</button>
+    <button type="button" onclick="showWishlist();closeQMenu()">❤️ My Wishlist</button>
+    <button type="button" onclick="showCart();closeQMenu()">🛒 My Cart</button>
+    <button type="button" onclick="openCustomerAuth();closeQMenu()">🔐 Account / Login</button>
+  </div>
 </div>
 <div id="qAppNav">
   <button type="button" onclick="qGoHome()">🏠<br>Home</button>
@@ -65,8 +94,11 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
   <button type="button" onclick="openCustomerAuth()">👤<br>Account</button>
 </div>
 <script>
+function toggleQMenu(){const m=document.getElementById('qMenu');if(m)m.classList.toggle('show');}
+function closeQMenu(){const m=document.getElementById('qMenu');if(m)m.classList.remove('show');}
+document.addEventListener('click',e=>{if(!e.target.closest('#qAppBar'))closeQMenu();});
 function qSearch(v){const s=document.getElementById('search');if(s){s.value=v;s.dispatchEvent(new Event('input',{bubbles:true}));}}
-if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).finally(()=>navigator.serviceWorker.register('./sw.js?v=9')).catch(console.error);
+if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).finally(()=>navigator.serviceWorker.register('./sw.js?v=10')).catch(console.error);
 </script>
 
 <header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="cartBtn" class="iconbtn" title="Cart" onclick="showCart()">🛒<span id="cartCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
