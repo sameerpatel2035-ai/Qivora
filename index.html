@@ -30,6 +30,88 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
 <div id="detailModal" class="modal"><div class="panel detail"><div class="modalhead"><h2>Product details</h2><div class="spacer"></div><button class="btn ghost" onclick="closeDetail()">✕</button></div><div id="detailContent"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL="https://dkzdgsuawotvcmemkclm.supabase.co";
+const SUPABASE_KEY="sb_publishable_YBsJaTGSo8kQTAxd3Ww-ZA_Q-WMnNKy";
+const OWNER_EMAIL="sameerpatel2035@gmail.com";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let products=[], wishlist=JSON.parse(localStorage.getItem("qivora_wishlist")||"[]"), activeCategory="", publicLoadError="";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const priceNum=v=>parseFloat(String(v??"").replace(/[^0-9.]/g,""))||0;
+const isAdminMode=()=>new URLSearchParams(location.search).get("qivora-admin")==="1";
+
+async function load(){
+  publicLoadError="";
+  try{
+    const r=await sb.from("products").select("id,name,price,category,image_url,meesho_link,created_at").order("created_at",{ascending:false});
+    if(r.error){console.error(r.error);publicLoadError=r.error.message||"Products could not be loaded.";products=[];}
+    else products=r.data||[];
+  }catch(e){console.error(e);publicLoadError=e?.message||"Products could not be loaded.";products=[];}
+  render();
+}
+function render(){
+  const q=($("search")?.value||"").toLowerCase().trim(), sort=$("sort")?.value||"new";
+  const cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();
+  const list=products.filter(p=>(!q||(`${p.name||""} ${p.category||""}`).toLowerCase().includes(q))&&(!activeCategory||p.category===activeCategory));
+  if(sort==="low")list.sort((a,b)=>priceNum(a.price)-priceNum(b.price));
+  if(sort==="high")list.sort((a,b)=>priceNum(b.price)-priceNum(a.price));
+  if(sort==="az")list.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
+  $("resultText").textContent=publicLoadError?"":`${list.length} product${list.length===1?"":"s"}`;
+  $("categories").innerHTML=`<button class="chip ${!activeCategory?"active":""}" onclick="setCategory('')">All</button>`+cats.map(x=>`<button class="chip ${activeCategory===x?"active":""}" onclick='setCategory(${JSON.stringify(x)})'>${esc(x)}</button>`).join("");
+  if(publicLoadError){
+    $("grid").innerHTML=`<div class="empty"><div style="font-size:34px">⚠️</div><b>Products could not be loaded</b><p style="max-width:600px;margin:10px auto;color:#70707b">${esc(publicLoadError)}</p><button class="btn primary" onclick="load()">↻ Try again</button></div>`;
+  }else if(!list.length){
+    $("grid").innerHTML=`<div class="empty">No products found.<br>Try another search or category.</div>`;
+  }else{
+    $("grid").innerHTML=list.map(p=>{
+      const id=String(p.id), wished=wishlist.includes(id), fresh=new Date(p.created_at||0)>Date.now()-7*864e5;
+      return `<article class="card"><div class="media" onclick="showDetail(${JSON.stringify(id)})"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy"><button class="heart ${wished?"on":""}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(id)})">${wished?"♥":"♡"}</button>${fresh?'<span class="badge">NEW</span>':""}</div><div class="body"><div class="cat">${esc(p.category||"Other")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="showDetail(${JSON.stringify(id)})">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`;
+    }).join("");
+  }
+  $("wishCount").textContent=wishlist.length;$("year").textContent=new Date().getFullYear();
+}
+function setCategory(c){activeCategory=c;render();}
+function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render();}
+function showWishlist(){
+  const list=products.filter(p=>wishlist.includes(String(p.id)));
+  $("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showWishlist()">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join("")}</div>`:`<p class="detailnote">Your wishlist is empty.<br>Tap ♡ on any product to save it.</p>`);
+  $("detailModal").classList.add("show");
+}
+function showDetail(id){
+  const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+  const wished=wishlist.includes(String(p.id));
+  $("detailContent").innerHTML=`<div class="detailbox"><img src="${esc(p.image_url)}" alt="${esc(p.name)}"><div class="detail"><div class="detailcat">${esc(p.category||"Other")}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">Browse this product here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showDetail(${JSON.stringify(String(p.id))})">${wished?"♥ Saved":"♡ Wishlist"}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;
+  $("detailModal").classList.add("show");
+}
+function closeDetail(){$("detailModal").classList.remove("show");}
+function openAdmin(){$("modal").classList.add("show");check();}
+function closeAdmin(){$("modal").classList.remove("show");}
+async function check(){const r=await sb.auth.getSession();if((r.data.session?.user?.email||"").toLowerCase()===OWNER_EMAIL.toLowerCase())showAdmin();}
+async function login(){const email=$("email").value.trim(),password=$("pass").value;$("loginStatus").textContent="Signing in...";const r=await sb.auth.signInWithPassword({email,password});if(r.error){$("loginStatus").textContent=r.error.message;return;}if((r.data.user?.email||"").toLowerCase()!==OWNER_EMAIL.toLowerCase()){await sb.auth.signOut();$("loginStatus").textContent="Not the owner account.";return;}showAdmin();}
+function showAdmin(){$("loginBox").style.display="none";$("adminBox").style.display="block";renderAdmin();}
+async function logout(){await sb.auth.signOut();$("adminBox").style.display="none";$("loginBox").style.display="block";}
+function preview(){const f=$("file").files[0],im=$("previewImg");if(f){im.src=URL.createObjectURL(f);im.style.display="block";}}
+async function addProduct(){
+  const name=$("name").value.trim(),price=$("price").value.trim(),category=$("cat").value.trim()||"Other",link=$("link").value.trim(),file=$("file").files[0];
+  if(!name||!link||!file){alert("Name, photo and Meesho link are required.");return;}
+  const st=$("saveStatus");st.textContent="Uploading photo...";
+  const path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"");
+  const up=await sb.storage.from("product-images").upload(path,file,{contentType:file.type});
+  if(up.error){st.textContent=up.error.message;return;}
+  const url=sb.storage.from("product-images").getPublicUrl(path).data.publicUrl;
+  st.textContent="Saving product...";
+  const ins=await sb.from("products").insert({name,price,category,image_url:url,meesho_link:link});
+  if(ins.error){st.textContent=ins.error.message;return;}
+  st.textContent="Product added successfully.";
+  ["name","price","cat","link"].forEach(id=>$(id).value="");$("file").value="";$("previewImg").style.display="none";
+  await load();renderAdmin();
+}
+async function removeProduct(id){if(!confirm("Delete this product?"))return;const r=await sb.from("products").delete().eq("id",id);if(r.error)alert(r.error.message);await load();renderAdmin();}
+function renderAdmin(){$("adminList").innerHTML=products.map(p=>`<div class="admin-item"><img src="${esc(p.image_url)}"><div><b>${esc(p.name)}</b><div style="font-size:12px;color:#777">${esc(p.price)} · ${esc(p.category||"Other")}</div></div><div class="spacer"></div><button class="btn" style="background:#fee;color:var(--danger)" onclick="removeProduct(${JSON.stringify(String(p.id))})">Delete</button></div>`).join("");}
+if(isAdminMode()){document.body.classList.add("admin-mode");setTimeout(openAdmin,250);}
+load();
+</script>
+<script>
 // Keep these 3 values exactly as configured in your current working QIVORA V4.
 const SUPABASE_URL="https://dkzdgsuawotvcmemkclm.supabase.co";
 const SUPABASE_KEY="sb_publishable_YBsJaTGSo8kQTAxd3Ww-ZA_Q-WMnNKy";
@@ -43,7 +125,7 @@ async function load(){if(!sb){products=[];render();return}let r=await sb.from("p
 function render(){let q=document.getElementById("search").value.toLowerCase().trim(),sort=document.getElementById("sort").value;let cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();let active=window.activeCategory||"";let list=products.filter(p=>(!q||(`${p.name} ${p.category}`).toLowerCase().includes(q))&&(!active||p.category===active));if(sort==="low")list.sort((a,b)=>priceNum(a.price)-priceNum(b.price));if(sort==="high")list.sort((a,b)=>priceNum(b.price)-priceNum(a.price));if(sort==="az")list.sort((a,b)=>String(a.name).localeCompare(String(b.name)));document.getElementById("resultText").textContent=`${list.length} product${list.length===1?"":"s"}`;document.getElementById("categories").innerHTML='<button class="chip '+(!active?'active':'')+'" onclick="setCategory(\"\")">All</button>'+cats.map(x=>`<button class="chip ${active===x?'active':''}" onclick='setCategory(${JSON.stringify(x)})'>${esc(x)}</button>`).join('');document.getElementById("grid").innerHTML=list.length?list.map(p=>`<article class="card"><div class="media" onclick="showDetail(${p.id})"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy"><button class="heart ${wishlist.includes(String(p.id))?'on':''}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(String(p.id))})">${wishlist.includes(String(p.id))?'♥':'♡'}</button>${new Date(p.created_at||0)>Date.now()-7*864e5?'<span class="badge">NEW</span>':''}</div><div class="body"><div class="cat">${esc(p.category)}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="showDetail(${p.id})">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`).join(''):'<div class="empty">No products found. Try another search or category.</div>';document.getElementById("wishCount").textContent=wishlist.length;document.getElementById("year").textContent=new Date().getFullYear()}
 function setCategory(c){window.activeCategory=c;render()}
 function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render()}
-function showWishlist(){let ids=new Set(wishlist),list=products.filter(p=>ids.has(String(p.id)));document.getElementById("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showWishlist()">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join('')}</div>`:'<p class="detailnote">Your wishlist is empty. Tap ♡ on any product to save it.</p>';document.getElementById("detailModal").classList.add("show")}
+function showWishlist(){let ids=new Set(wishlist),list=products.filter(p=>ids.has(String(p.id)));document.getElementById("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))};showWishlist())">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join('')}</div>`:'<p class="detailnote">Your wishlist is empty. Tap ♡ on any product to save it.</p>';document.getElementById("detailModal").classList.add("show")}
 function showDetail(id){let p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById("detailContent").innerHTML=`<div class="detailbox"><img src="${esc(p.image_url)}" alt="${esc(p.name)}"><div class="detail"><div class="detailcat">${esc(p.category)}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">Browse this product here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))})">${wishlist.includes(String(p.id))?'♥ Saved':'♡ Wishlist'}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;document.getElementById("detailModal").classList.add("show")}
 function closeDetail(){document.getElementById("detailModal").classList.remove("show")}
 function openAdmin(){document.getElementById("modal").classList.add("show");if(!configured)document.getElementById("loginStatus").textContent="Supabase is not configured yet.";else check()}
