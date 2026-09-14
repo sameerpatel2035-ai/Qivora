@@ -21,6 +21,12 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
 </style>
 <style id="qivora-app-ui">
 #qAppBar{display:none}
+body.app-mode header{display:none!important}
+body.app-mode #qAppBar{display:flex}
+body.app-mode #qAppNav{display:flex}
+body:not(.app-mode) #qAppBar,body:not(.app-mode) #qAppNav{display:none!important}
+#installBtn{display:none}
+body.web-install #installBtn{display:inline-flex;align-items:center;justify-content:center}
 .q-menu{display:none}
 @media(max-width:650px){
   #qAppBar{display:flex;position:sticky;top:0;z-index:2100;background:#fff;border-bottom:1px solid #e5e5e9;padding:11px 12px;align-items:center;gap:10px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
@@ -76,6 +82,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
 </style>
 
 </head><body>
+<div id="qWebInstall" style="display:none;position:fixed;left:10px;right:10px;bottom:12px;z-index:2200;background:#fff;border:1px solid #e4dafa;border-radius:16px;padding:12px;box-shadow:0 12px 35px rgba(0,0,0,.18);align-items:center;gap:10px"><div style="font-size:28px">📲</div><div style="flex:1"><b>QIVORA App</b><div style="font-size:12px;color:#777;margin-top:2px">Install app for the full shopping experience</div></div><button class="btn primary" type="button" onclick="installQivora()">Install</button><button class="btn ghost" type="button" onclick="closeWebInstall()">✕</button></div>
 <div id="qAppBar">
   <div class="qlogo">QIVORA</div>
   <input id="qMobileSearch" placeholder="Search products..." oninput="qSearch(this.value)">
@@ -98,10 +105,28 @@ function toggleQMenu(){const m=document.getElementById('qMenu');if(m)m.classList
 function closeQMenu(){const m=document.getElementById('qMenu');if(m)m.classList.remove('show');}
 document.addEventListener('click',e=>{if(!e.target.closest('#qAppBar'))closeQMenu();});
 function qSearch(v){const s=document.getElementById('search');if(s){s.value=v;s.dispatchEvent(new Event('input',{bubbles:true}));}}
-if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).finally(()=>navigator.serviceWorker.register('./sw.js?v=10')).catch(console.error);
+let deferredQivoraInstall=null;
+function isQivoraApp(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true || document.referrer.startsWith('android-app://');}
+function setupQivoraMode(){
+  const app=isQivoraApp();
+  document.body.classList.toggle('app-mode',app);
+  document.body.classList.toggle('web-install',!app && !!deferredQivoraInstall);
+  const b=document.getElementById('qWebInstall'); if(b) b.style.display=(!app && deferredQivoraInstall)?'flex':'none';
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredQivoraInstall=e;setupQivoraMode();});
+window.addEventListener('appinstalled',()=>{deferredQivoraInstall=null;setupQivoraMode();});
+async function installQivora(){
+  if(!deferredQivoraInstall){alert('Chrome menu ⋮ se “Install app” ya “Add to Home screen” choose karein.');return;}
+  deferredQivoraInstall.prompt();
+  await deferredQivoraInstall.userChoice.catch(()=>null);
+  deferredQivoraInstall=null; setupQivoraMode();
+}
+function closeWebInstall(){const b=document.getElementById('qWebInstall');if(b)b.style.display='none';}
+setupQivoraMode();
+if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).finally(()=>navigator.serviceWorker.register('./sw.js?v=11')).catch(console.error);
 </script>
 
-<header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="cartBtn" class="iconbtn" title="Cart" onclick="showCart()">🛒<span id="cartCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
+<header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="cartBtn" class="iconbtn" title="Cart" onclick="showCart()">🛒<span id="cartCount" class="count">0</span></button><button id="installBtn" class="btn primary" type="button" onclick="installQivora()">📲 Install App</button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
 <section id="home" class="hero"><div class="hero-copy"><div class="eyebrow">Welcome to QIVORA</div><h1>Discover. Click. Shop.</h1><p>Find trending products in one place and tap <b>BUY NOW</b> to continue to the seller's Meesho page.</p></div><div class="hero-art">🛍️</div></section>
 <main class="container" id="products">
 <div class="section-head"><h2>Shop by category</h2><span id="resultText"></span></div><div id="categories" class="categories"></div>
