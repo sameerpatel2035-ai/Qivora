@@ -15,8 +15,8 @@ header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid 
 .controls{display:flex;gap:10px;align-items:center;margin:12px 0 18px}.searchwrap{position:relative;flex:1}.searchwrap span{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#777}.controls input,.controls select{width:100%;background:#fff;border:1px solid var(--line);padding:12px 13px;border-radius:12px;outline:none}.controls input{padding-left:38px}.controls input:focus,.controls select:focus{border-color:#b99be9;box-shadow:0 0 0 3px #eee6ff}.sort{max-width:190px}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding-bottom:38px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;display:flex;flex-direction:column;min-width:0;box-shadow:0 3px 14px rgba(20,16,35,.04)}.media{position:relative;cursor:pointer}.pic{width:100%;aspect-ratio:1/1;object-fit:cover;background:#eee;display:block}.heart{position:absolute;right:9px;top:9px;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 4px 12px #0002;font-size:19px}.heart.on{color:#d12c5c}.badge{position:absolute;left:9px;top:9px;background:#fff;color:var(--brand);font-size:11px;font-weight:900;border-radius:8px;padding:6px 8px;box-shadow:0 4px 12px #0002}.body{padding:12px}.cat{font-size:11px;color:var(--brand);font-weight:900;text-transform:uppercase}.name{font-weight:850;margin:5px 0 8px;line-height:1.25;min-height:36px}.price{font-size:19px;font-weight:950}.actions{display:flex;gap:7px;margin-top:11px}.actions .btn{flex:1;text-align:center;text-decoration:none}.details{background:#f4f4f7;color:#3f3f49}.empty{text-align:center;color:var(--muted);padding:55px 15px;grid-column:1/-1}
 footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:var(--muted);font-size:13px}.footgrid{max-width:1180px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}.footgrid h3{color:var(--text);margin:0 0 8px}.footgrid p{line-height:1.55}.footlinks{display:grid;gap:7px}.footlinks a{color:var(--muted);text-decoration:none}.copyright{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
-.modal{display:none;position:fixed;inset:0;background:#0009;z-index:50;padding:16px;overflow:auto}.modal.show{display:block}.panel{max-width:760px;margin:30px auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 60px #0005}.modalhead{display:flex;align-items:center;gap:10px}.modalhead h2{margin:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:850;margin-bottom:5px}.field input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px}.preview{width:110px;height:110px;object-fit:cover;border-radius:11px;display:none;margin-top:8px}.admin-list{display:grid;gap:8px;margin-top:15px}.admin-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:11px}.admin-item img{width:54px;height:54px;object-fit:cover;border-radius:8px}.status{font-size:13px;color:var(--muted);margin-top:8px}.notice{padding:10px 12px;background:#fff5d6;border-radius:10px;color:#6d5300;font-size:13px;margin:12px 0}
-.detail{max-width:900px}.detailbox{display:grid;grid-template-columns:1fr 1fr;gap:22px}.detailbox img{width:100%;border-radius:15px;aspect-ratio:1;object-fit:cover}.detailcat{color:var(--brand);font-weight:900;font-size:12px;text-transform:uppercase}.detail h2{font-size:28px;margin:7px 0}.detailprice{font-size:25px;font-weight:950;margin:12px 0}.detailnote{color:var(--muted);line-height:1.55}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:2000;padding:16px;overflow:auto}.modal.show{display:block}.panel{max-width:760px;margin:30px auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 60px #0005}.modalhead{display:flex;align-items:center;gap:10px}.modalhead h2{margin:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:850;margin-bottom:5px}.field input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px}.preview{width:110px;height:110px;object-fit:cover;border-radius:11px;display:none;margin-top:8px}.admin-list{display:grid;gap:8px;margin-top:15px}.admin-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:11px}.admin-item img{width:54px;height:54px;object-fit:cover;border-radius:8px}.status{font-size:13px;color:var(--muted);margin-top:8px}.notice{padding:10px 12px;background:#fff5d6;border-radius:10px;color:#6d5300;font-size:13px;margin:12px 0}
+.detail{max-width:900px}.detail-main-img{width:100%;border-radius:15px;aspect-ratio:1;object-fit:contain;background:#f7f7f8}.thumbs{display:flex;gap:8px;overflow:auto;margin-top:9px}.thumb{flex:0 0 62px;width:62px;height:62px;border:1px solid var(--line);border-radius:9px;padding:0;background:#fff;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}.detailbox{display:grid;grid-template-columns:1fr 1fr;gap:22px}.detailbox img{width:100%;border-radius:15px;aspect-ratio:1;object-fit:cover}.detailcat{color:var(--brand);font-weight:900;font-size:12px;text-transform:uppercase}.detail h2{font-size:28px;margin:7px 0}.detailprice{font-size:25px;font-weight:950;margin:12px 0}.detailnote{color:var(--muted);line-height:1.55}
 @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-art{width:180px}}@media(max-width:650px){.navlinks{display:none}.nav{height:58px}.logo{font-size:23px}.hero{margin:12px 10px 0;padding:22px 17px}.hero-art{display:none}.container{padding:0 10px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.name{font-size:14px}.price{font-size:18px}.controls{align-items:stretch;flex-wrap:wrap}.searchwrap{flex-basis:100%}.sort{max-width:none;flex:1}.categories{margin-right:-2px}.footgrid{grid-template-columns:1fr 1fr}.footgrid>div:first-child{grid-column:1/-1}.row,.detailbox{grid-template-columns:1fr}.panel{margin:15px auto;padding:16px}}
 </style>
 <style id="qivora-app-ui">
@@ -62,10 +62,10 @@ padding:10px 14px;border:1px solid #e5e7eb;border-radius:13px;background:#fff}
   <button onclick="openCustomerAuth()">👤</button>
 </div>
 <div id="qAppNav">
-  <button onclick="scrollTo({top:0,behavior:'smooth'})">🏠<br>Home</button>
-  <button onclick="document.getElementById('qMobileSearch').focus()">🔎<br>Search</button>
-  <button onclick="showWishlist()">❤️<br>Wishlist</button>
-  <button onclick="openCustomerAuth()">👤<br>Account</button>
+  <button type="button" onclick="qGoHome()">🏠<br>Home</button>
+  <button type="button" onclick="qGoSearch()">🔎<br>Search</button>
+  <button type="button" onclick="qGoWishlist()">❤️<br>Wishlist</button>
+  <button type="button" onclick="openCustomerAuth()">👤<br>Account</button>
 </div>
 <script>
 let qDeferred=null;
@@ -77,14 +77,27 @@ async function qInstall(){
   if(qDeferred){qDeferred.prompt(); await qDeferred.userChoice; qDeferred=null; return;}
   alert('Chrome ke ⋮ menu me “Install app” ya “Add to Home screen” select karein.');
 }
+function qGoHome(){
+  const home=document.getElementById('home');
+  if(home) home.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function qGoSearch(){
+  const top=document.getElementById('qMobileSearch');
+  const s=document.getElementById('search');
+  if(top){top.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>top.focus(),250);}
+  else if(s){s.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>s.focus(),250);}
+}
+function qGoWishlist(){
+  if(typeof showWishlist==='function') showWishlist();
+}
 function qSearch(v){
   const s=document.getElementById('search');
-  if(s){s.value=v; s.dispatchEvent(new Event('input',{bubbles:true}));}
+  if(s){s.value=v; render();}
 }
-if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.error);
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=7').then(r=>r.update()).catch(console.error); }
 </script>
 
-<header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
+<header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home" onclick="qGoHome();return false;">Home</a><a href="#categories" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'});return false;">Categories</a><a href="#products" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'});return false;">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
 <section id="home" class="hero"><div class="hero-copy"><div class="eyebrow">Welcome to QIVORA</div><h1>Discover. Click. Shop.</h1><p>Find trending products in one place and tap <b>BUY NOW</b> to continue to the seller's Meesho page.</p></div><div class="hero-art">🛍️</div></section>
 <main class="container" id="products">
 <div class="section-head"><h2>Shop by category</h2><span id="resultText"></span></div><div id="categories" class="categories"></div>
@@ -184,6 +197,13 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&
 const priceNum=v=>parseFloat(String(v??"").replace(/[^0-9.]/g,""))||0;
 const isAdminMode=()=>new URLSearchParams(location.search).get("qivora-admin")==="1";
 
+function getProductImages(p){
+  const raw=String(p?.image_url||"");
+  if(!raw)return [];
+  try{const a=JSON.parse(raw);if(Array.isArray(a))return a.filter(Boolean)}catch(e){}
+  return [raw];
+}
+function productMainImage(p){return getProductImages(p)[0]||""}
 async function load(){
   publicLoadError="";
   try{
@@ -209,7 +229,7 @@ function render(){
   }else{
     $("grid").innerHTML=list.map(p=>{
       const id=String(p.id), wished=wishlist.includes(id), fresh=new Date(p.created_at||0)>Date.now()-7*864e5;
-      return `<article class="card"><div class="media" onclick="showDetail(${JSON.stringify(id)})"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy"><button class="heart ${wished?"on":""}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(id)})">${wished?"♥":"♡"}</button>${fresh?'<span class="badge">NEW</span>':""}</div><div class="body"><div class="cat">${esc(p.category||"Other")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="showDetail(${JSON.stringify(id)})">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`;
+      return `<article class="card"><div class="media" onclick="showDetail(${JSON.stringify(id)})"><img class="pic" src="${esc(productMainImage(p))}" alt="${esc(p.name)}" loading="lazy"><button type="button" class="heart ${wished?"on":""}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(id)});return false;">${wished?"♥":"♡"}</button>${fresh?'<span class="badge">NEW</span>':""}</div><div class="body"><div class="cat">${esc(p.category||"Other")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button type="button" class="btn details" onclick="showDetail(${JSON.stringify(id)});return false;">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`;
     }).join("");
   }
   $("wishCount").textContent=wishlist.length;$("year").textContent=new Date().getFullYear();
@@ -218,15 +238,19 @@ function setCategory(c){activeCategory=c;render();}
 function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render();}
 function showWishlist(){
   const list=products.filter(p=>wishlist.includes(String(p.id)));
-  $("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showWishlist()">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join("")}</div>`:`<p class="detailnote">Your wishlist is empty.<br>Tap ♡ on any product to save it.</p>`);
+  $("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(productMainImage(p))}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showWishlist()">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join("")}</div>`:`<p class="detailnote">Your wishlist is empty.<br>Tap ♡ on any product to save it.</p>`);
   $("detailModal").classList.add("show");
 }
 function showDetail(id){
   const p=products.find(x=>String(x.id)===String(id));if(!p)return;
-  const wished=wishlist.includes(String(p.id));
-  $("detailContent").innerHTML=`<div class="detailbox"><img src="${esc(p.image_url)}" alt="${esc(p.name)}"><div class="detail"><div class="detailcat">${esc(p.category||"Other")}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">Browse this product here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showDetail(${JSON.stringify(String(p.id))})">${wished?"♥ Saved":"♡ Wishlist"}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;
-  $("detailModal").classList.add("show");
+  const imgs=getProductImages(p),wished=wishlist.includes(String(p.id));
+  window.qDetailImages=imgs;
+  const thumbs=imgs.length>1?`<div class="thumbs">${imgs.map((u,i)=>`<button type="button" class="thumb" onclick="setDetailImage(${i})"><img src="${esc(u)}" alt="${esc(p.name)} ${i+1}"></button>`).join("")}</div>`:"";
+  $('detailContent').innerHTML=`<div class="detailbox"><div><img id="detailMainImage" src="${esc(imgs[0]||"")}" alt="${esc(p.name)}" class="detail-main-img">${thumbs}</div><div class="detail"><div class="detailcat">${esc(p.category||"Other")}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">View all product photos here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button type="button" class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showDetail(${JSON.stringify(String(p.id))})">${wished?"♥ Saved":"♡ Wishlist"}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;
+  $('detailModal').classList.add('show');
 }
+function setDetailImage(i){const u=window.qDetailImages?.[i];if(u)$('detailMainImage').src=u}
+
 function closeDetail(){$("detailModal").classList.remove("show");}
 function openAdmin(){$("modal").classList.add("show");check();}
 function closeAdmin(){$("modal").classList.remove("show");}
