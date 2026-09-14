@@ -97,9 +97,19 @@ if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').cat
 <div id="authModal" class="modal">
   <div class="panel auth-card">
     <div class="modalhead">
-      <h2>QIVORA Account</h2>
+      <h2>Login to QIVORA</h2>
       <div class="spacer"></div>
       <button class="btn ghost" onclick="closeCustomerAuth()">✕</button>
+    </div>
+
+    <div id="authLoginBox">
+      <div class="auth-title">Welcome to QIVORA</div>
+      <p class="detailnote">Login securely with your Google account.</p>
+      <button class="q-google-login" type="button" onclick="googleCustomerLogin()">
+        <span class="google-g">G</span> Continue with Google
+      </button>
+      <div id="authStatus" class="status"></div>
+      <p class="detailnote" style="margin-top:12px">No mobile OTP required.</p>
     </div>
 
     <div id="authAccountBox" style="display:none">
