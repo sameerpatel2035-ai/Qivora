@@ -6,158 +6,826 @@
 <meta name="theme-color" content="#6c2bd9">
 <link rel="manifest" href="manifest.json">
 <title>QIVORA | Online Shopping</title>
+
 <style>
 :root{--bg:#f6f6fa;--card:#fff;--text:#18181d;--muted:#70707b;--brand:#6c2bd9;--brand2:#8b4df2;--line:#e7e7ee;--soft:#f0eaff;--good:#16834b;--danger:#c62828;--shadow:0 8px 28px rgba(31,22,56,.08)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}button{border:0;cursor:pointer}.container{max-width:1180px;margin:auto;padding:0 16px}
-header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}.nav{height:64px;display:flex;align-items:center;gap:12px}.logo{font-size:25px;font-weight:950;letter-spacing:-.6px;color:var(--brand)}.navlinks{display:flex;gap:6px;margin-left:14px}.navlinks a{padding:8px 11px;text-decoration:none;color:#454550;border-radius:9px;font-weight:700;font-size:14px}.navlinks a:hover{background:var(--soft);color:var(--brand)}.spacer{flex:1}.iconbtn{position:relative;background:#f5f1ff;color:var(--brand);width:42px;height:42px;border-radius:12px;font-size:20px}.count{position:absolute;right:-3px;top:-4px;background:var(--brand);color:#fff;border-radius:99px;font-size:10px;min-width:18px;height:18px;display:grid;place-items:center;font-weight:800}.admin-trigger{display:none}.admin-mode .admin-trigger{display:inline-flex;align-items:center;justify-content:center}.btn{padding:11px 14px;border-radius:11px;font-weight:800}.primary{background:var(--brand);color:#fff}.primary:hover{background:#5920b8}.ghost{background:var(--soft);color:var(--brand)}
-.hero{margin:20px auto 0;max-width:1180px;padding:30px 24px;border-radius:24px;background:linear-gradient(120deg,#eee5ff 0%,#fff 62%);box-shadow:var(--shadow);display:flex;align-items:center;gap:24px}.hero-copy{flex:1}.eyebrow{font-size:12px;color:var(--brand);font-weight:900;text-transform:uppercase;letter-spacing:1px}.hero h1{margin:7px 0 8px;font-size:clamp(30px,5vw,50px);line-height:1.04;letter-spacing:-1.5px}.hero p{margin:0;color:var(--muted);max-width:620px;line-height:1.55}.hero-art{width:230px;height:150px;border-radius:20px;background:radial-gradient(circle at 30% 30%,#fff 0 14%,transparent 15%),linear-gradient(135deg,#6c2bd9,#a477ff);display:grid;place-items:center;color:#fff;font-size:42px;box-shadow:0 12px 30px rgba(108,43,217,.25)}
-.section-head{display:flex;align-items:end;justify-content:space-between;margin:26px 0 12px}.section-head h2{margin:0;font-size:22px}.section-head span{color:var(--muted);font-size:13px}.categories{display:flex;gap:8px;overflow:auto;padding:2px 1px 6px}.chip{white-space:nowrap;padding:9px 13px;border:1px solid var(--line);background:#fff;border-radius:999px;font-weight:750;color:#555;cursor:pointer}.chip.active,.chip:hover{background:var(--brand);border-color:var(--brand);color:#fff}
-.controls{display:flex;gap:10px;align-items:center;margin:12px 0 18px}.searchwrap{position:relative;flex:1}.searchwrap span{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#777}.controls input,.controls select{width:100%;background:#fff;border:1px solid var(--line);padding:12px 13px;border-radius:12px;outline:none}.controls input{padding-left:38px}.controls input:focus,.controls select:focus{border-color:#b99be9;box-shadow:0 0 0 3px #eee6ff}.sort{max-width:190px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding-bottom:38px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;display:flex;flex-direction:column;min-width:0;box-shadow:0 3px 14px rgba(20,16,35,.04)}.media{position:relative;cursor:pointer}.pic{width:100%;aspect-ratio:1/1;object-fit:cover;background:#eee;display:block}.heart{position:absolute;right:9px;top:9px;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 4px 12px #0002;font-size:19px}.heart.on{color:#d12c5c}.badge{position:absolute;left:9px;top:9px;background:#fff;color:var(--brand);font-size:11px;font-weight:900;border-radius:8px;padding:6px 8px;box-shadow:0 4px 12px #0002}.body{padding:12px}.cat{font-size:11px;color:var(--brand);font-weight:900;text-transform:uppercase}.name{font-weight:850;margin:5px 0 8px;line-height:1.25;min-height:36px}.price{font-size:19px;font-weight:950}.actions{display:flex;gap:7px;margin-top:11px}.actions .btn{flex:1;text-align:center;text-decoration:none}.details{background:#f4f4f7;color:#3f3f49}.empty{text-align:center;color:var(--muted);padding:55px 15px;grid-column:1/-1}
-footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:var(--muted);font-size:13px}.footgrid{max-width:1180px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}.footgrid h3{color:var(--text);margin:0 0 8px}.footgrid p{line-height:1.55}.footlinks{display:grid;gap:7px}.footlinks a{color:var(--muted);text-decoration:none}.copyright{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
-.modal{display:none;position:fixed;inset:0;background:#0009;z-index:50;padding:16px;overflow:auto}.modal.show{display:block}.panel{max-width:760px;margin:30px auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 60px #0005}.modalhead{display:flex;align-items:center;gap:10px}.modalhead h2{margin:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:850;margin-bottom:5px}.field input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px}.preview{width:110px;height:110px;object-fit:cover;border-radius:11px;display:none;margin-top:8px}.admin-list{display:grid;gap:8px;margin-top:15px}.admin-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:11px}.admin-item img{width:54px;height:54px;object-fit:cover;border-radius:8px}.status{font-size:13px;color:var(--muted);margin-top:8px}.notice{padding:10px 12px;background:#fff5d6;border-radius:10px;color:#6d5300;font-size:13px;margin:12px 0}
-.detail{max-width:900px}.detailbox{display:grid;grid-template-columns:1fr 1fr;gap:22px}.detailbox img{width:100%;border-radius:15px;aspect-ratio:1;object-fit:cover}.detailcat{color:var(--brand);font-weight:900;font-size:12px;text-transform:uppercase}.detail h2{font-size:28px;margin:7px 0}.detailprice{font-size:25px;font-weight:950;margin:12px 0}.detailnote{color:var(--muted);line-height:1.55}
-@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-art{width:180px}}@media(max-width:650px){.navlinks{display:none}.nav{height:58px}.logo{font-size:23px}.hero{margin:12px 10px 0;padding:22px 17px}.hero-art{display:none}.container{padding:0 10px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.name{font-size:14px}.price{font-size:18px}.controls{align-items:stretch;flex-wrap:wrap}.searchwrap{flex-basis:100%}.sort{max-width:none;flex:1}.categories{margin-right:-2px}.footgrid{grid-template-columns:1fr 1fr}.footgrid>div:first-child{grid-column:1/-1}.row,.detailbox{grid-template-columns:1fr}.panel{margin:15px auto;padding:16px}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+button{border:0;cursor:pointer}
+.container{max-width:1180px;margin:auto;padding:0 16px}
+
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.nav{height:64px;display:flex;align-items:center;gap:12px}
+.logo{font-size:25px;font-weight:950;letter-spacing:-.6px;color:var(--brand)}
+.navlinks{display:flex;gap:6px;margin-left:14px}
+.navlinks a{padding:8px 11px;text-decoration:none;color:#454550;border-radius:9px;font-weight:700;font-size:14px}
+.navlinks a:hover{background:var(--soft);color:var(--brand)}
+.spacer{flex:1}
+.iconbtn{position:relative;background:#f5f1ff;color:var(--brand);width:42px;height:42px;border-radius:12px;font-size:20px}
+.count{position:absolute;right:-3px;top:-4px;background:var(--brand);color:#fff;border-radius:99px;font-size:10px;min-width:18px;height:18px;display:grid;place-items:center;font-weight:800}
+.admin-trigger{display:none}
+.admin-mode .admin-trigger{display:inline-flex;align-items:center;justify-content:center}
+.btn{padding:11px 14px;border-radius:11px;font-weight:800}
+.primary{background:var(--brand);color:#fff}
+.primary:hover{background:#5920b8}
+.ghost{background:var(--soft);color:var(--brand)}
+
+.hero{margin:20px auto 0;max-width:1180px;padding:30px 24px;border-radius:24px;background:linear-gradient(120deg,#eee5ff 0%,#fff 62%);box-shadow:var(--shadow);display:flex;align-items:center;gap:24px}
+.hero-copy{flex:1}
+.eyebrow{font-size:12px;color:var(--brand);font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.hero h1{margin:7px 0 8px;font-size:clamp(30px,5vw,50px);line-height:1.04;letter-spacing:-1.5px}
+.hero p{margin:0;color:var(--muted);max-width:620px;line-height:1.55}
+.hero-art{width:230px;height:150px;border-radius:20px;background:radial-gradient(circle at 30% 30%,#fff 0 14%,transparent 15%),linear-gradient(135deg,#6c2bd9,#a477ff);display:grid;place-items:center;color:#fff;font-size:42px;box-shadow:0 12px 30px rgba(108,43,217,.25)}
+
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:26px 0 12px}
+.section-head h2{margin:0;font-size:22px}
+.section-head span{color:var(--muted);font-size:13px}
+.categories{display:flex;gap:8px;overflow:auto;padding:2px 1px 6px}
+.chip{white-space:nowrap;padding:9px 13px;border:1px solid var(--line);background:#fff;border-radius:999px;font-weight:750;color:#555;cursor:pointer}
+.chip.active,.chip:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+
+.controls{display:flex;gap:10px;align-items:center;margin:12px 0 18px}
+.searchwrap{position:relative;flex:1}
+.searchwrap span{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#777}
+.controls input,.controls select{width:100%;background:#fff;border:1px solid var(--line);padding:12px 13px;border-radius:12px;outline:none}
+.controls input{padding-left:38px}
+.controls input:focus,.controls select:focus{border-color:#b99be9;box-shadow:0 0 0 3px #eee6ff}
+.sort{max-width:190px}
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding-bottom:38px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;display:flex;flex-direction:column;min-width:0;box-shadow:0 3px 14px rgba(20,16,35,.04)}
+.media{position:relative;cursor:pointer}
+.pic{width:100%;aspect-ratio:1/1;object-fit:cover;background:#eee;display:block}
+.heart{position:absolute;right:9px;top:9px;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 4px 12px #0002;font-size:19px}
+.heart.on{color:#d12c5c}
+.badge{position:absolute;left:9px;top:9px;background:#fff;color:var(--brand);font-size:11px;font-weight:900;border-radius:8px;padding:6px 8px;box-shadow:0 4px 12px #0002}
+.body{padding:12px}
+.cat{font-size:11px;color:var(--brand);font-weight:900;text-transform:uppercase}
+.name{font-weight:850;margin:5px 0 8px;line-height:1.25;min-height:36px}
+.price{font-size:19px;font-weight:950}
+.actions{display:flex;gap:7px;margin-top:11px}
+.actions .btn{flex:1;text-align:center;text-decoration:none}
+.details{background:#f4f4f7;color:#3f3f49}
+.empty{text-align:center;color:var(--muted);padding:55px 15px;grid-column:1/-1}
+
+footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:var(--muted);font-size:13px}
+.footgrid{max-width:1180px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
+.footgrid h3{color:var(--text);margin:0 0 8px}
+.footgrid p{line-height:1.55}
+.footlinks{display:grid;gap:7px}
+.footlinks a{color:var(--muted);text-decoration:none}
+.copyright{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:50;padding:16px;overflow:auto}
+.modal.show{display:block}
+.panel{max-width:760px;margin:30px auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 60px #0005}
+.modalhead{display:flex;align-items:center;gap:10px}
+.modalhead h2{margin:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{margin:10px 0}
+.field label{display:block;font-size:13px;font-weight:850;margin-bottom:5px}
+.field input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px}
+.preview{width:110px;height:110px;object-fit:cover;border-radius:11px;display:none;margin-top:8px}
+.admin-list{display:grid;gap:8px;margin-top:15px}
+.admin-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:11px}
+.admin-item img{width:54px;height:54px;object-fit:cover;border-radius:8px}
+.status{font-size:13px;color:var(--muted);margin-top:8px}
+.notice{padding:10px 12px;background:#fff5d6;border-radius:10px;color:#6d5300;font-size:13px;margin:12px 0}
+
+.detail{max-width:900px}
+.detailbox{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.detailbox img{width:100%;border-radius:15px;aspect-ratio:1;object-fit:cover}
+.detailcat{color:var(--brand);font-weight:900;font-size:12px;text-transform:uppercase}
+.detail h2{font-size:28px;margin:7px 0}
+.detailprice{font-size:25px;font-weight:950;margin:12px 0}
+.detailnote{color:var(--muted);line-height:1.55}
+
+@media(max-width:900px){
+.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hero-art{width:180px}
+}
+
+@media(max-width:650px){
+.navlinks{display:none}
+.nav{height:58px}
+.logo{font-size:23px}
+.hero{margin:12px 10px 0;padding:22px 17px}
+.hero-art{display:none}
+.container{padding:0 10px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.name{font-size:14px}
+.price{font-size:18px}
+.controls{align-items:stretch;flex-wrap:wrap}
+.searchwrap{flex-basis:100%}
+.sort{max-width:none;flex:1}
+.categories{margin-right:-2px}
+.footgrid{grid-template-columns:1fr 1fr}
+.footgrid>div:first-child{grid-column:1/-1}
+.row,.detailbox{grid-template-columns:1fr}
+.panel{margin:15px auto;padding:16px}
+}
 </style>
+
 <style id="qivora-app-ui">
 #qAppBar{display:none}
+
 @media(max-width:650px){
-  #qAppBar{display:flex;position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid #eee;
-  padding:9px 10px;align-items:center;gap:8px}
-  #qAppBar .qlogo{font-weight:900;color:#6c2bd9;font-size:20px}
-  #qAppBar input{flex:1;border:1px solid #ddd;background:#f7f7f7;border-radius:11px;padding:10px}
-  #qAppBar button{background:#f1eaff;border:0;border-radius:10px;padding:9px}
-  #qAppNav{position:fixed;bottom:0;left:0;right:0;z-index:1100;background:#fff;border-top:1px solid #ddd;
-  display:flex;justify-content:space-around;padding:6px 2px}
-  #qAppNav button{background:none;border:0;font-size:11px;padding:4px 10px}
-  body{padding-bottom:48px}
+#qAppBar{
+display:flex;
+position:sticky;
+top:0;
+z-index:1000;
+background:#fff;
+border-bottom:1px solid #eee;
+padding:9px 10px;
+align-items:center;
+gap:8px
 }
-#qInstall{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:1180px;margin:10px auto;
-padding:10px 14px;border:1px solid #e5e7eb;border-radius:13px;background:#fff}
-#qInstall button{background:#111827;color:#fff;border:0;border-radius:10px;padding:9px 13px;font-weight:800}
-@media(max-width:650px){#qInstall{margin:8px 10px;font-size:12px}}
+
+#qAppBar .qlogo{
+font-weight:900;
+color:#6c2bd9;
+font-size:20px
+}
+
+#qAppBar input{
+flex:1;
+border:1px solid #ddd;
+background:#f7f7f7;
+border-radius:11px;
+padding:10px
+}
+
+#qAppBar button{
+background:#f1eaff;
+border:0;
+border-radius:10px;
+padding:9px
+}
+
+#qAppNav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+z-index:1100;
+background:#fff;
+border-top:1px solid #ddd;
+display:flex;
+justify-content:space-around;
+padding:6px 2px
+}
+
+#qAppNav button{
+background:none;
+border:0;
+font-size:11px;
+padding:4px 10px
+}
+
+body{padding-bottom:48px}
+}
+
+#qInstall{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+max-width:1180px;
+margin:10px auto;
+padding:10px 14px;
+border:1px solid #e5e7eb;
+border-radius:13px;
+background:#fff
+}
+
+#qInstall button{
+background:#111827;
+color:#fff;
+border:0;
+border-radius:10px;
+padding:9px 13px;
+font-weight:800
+}
+
+@media(max-width:650px){
+#qInstall{margin:8px 10px;font-size:12px}
+}
 </style>
-</head><body>
-<div id="qInstall"><b>🛍️ QIVORA Shopping App</b><button id="qInstallBtn" onclick="qInstall()">📲 Install App</button></div>
+
+<style id="qivora-auth-ui">
+.auth-card{max-width:430px}
+.auth-title{font-size:25px;font-weight:950;margin:4px 0 6px}
+.auth-sub{color:#70707b;font-size:13px;line-height:1.5;margin:0 0 16px}
+.auth-phone{display:flex;gap:8px}
+.auth-prefix{width:74px;background:#f6f3ff;border:1px solid #e2d9f5;border-radius:11px;padding:11px;text-align:center;font-weight:850;color:#6c2bd9}
+.auth-phone input{flex:1}
+.auth-otp{letter-spacing:8px;text-align:center;font-size:22px;font-weight:900}
+.auth-status{margin-top:10px;font-size:13px;min-height:20px;color:#70707b}
+.account-box{display:grid;gap:10px}
+.account-pill{background:#f6f1ff;border-radius:14px;padding:14px}
+.account-pill b{display:block;font-size:18px}
+.account-pill span{color:#70707b;font-size:13px}
+.auth-link{background:none;color:#6c2bd9;font-weight:800;padding:8px 0}
+</style>
+
+</head>
+
+<body>
+
+<div id="qInstall">
+<b>🛍️ QIVORA Shopping App</b>
+<button id="qInstallBtn" onclick="qInstall()">📲 Install App</button>
+</div>
+
 <div id="qAppBar">
-  <div class="qlogo">Q</div>
-  <input id="qMobileSearch" placeholder="Search products..." oninput="qSearch(this.value)">
-  <button onclick="alert('Mobile OTP login next step me enable hoga.')">👤</button>
+<div class="qlogo">Q</div>
+<input id="qMobileSearch" placeholder="Search products..." oninput="qSearch(this.value)">
+<button onclick="openCustomerAuth()">👤</button>
 </div>
+
 <div id="qAppNav">
-  <button onclick="scrollTo({top:0,behavior:'smooth'})">🏠<br>Home</button>
-  <button onclick="document.getElementById('qMobileSearch').focus()">🔎<br>Search</button>
-  <button onclick="showWishlist()">❤️<br>Wishlist</button>
-  <button onclick="alert('Mobile OTP login next step me enable hoga.')">👤<br>Account</button>
+<button onclick="scrollTo({top:0,behavior:'smooth'})">🏠<br>Home</button>
+<button onclick="document.getElementById('qMobileSearch').focus()">🔎<br>Search</button>
+<button onclick="showWishlist()">❤️<br>Wishlist</button>
+<button onclick="openCustomerAuth()">👤<br>Account</button>
 </div>
+
 <script>
 let qDeferred=null;
+
 window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault(); qDeferred=e;
-  document.getElementById('qInstallBtn').textContent='📲 Install App';
+e.preventDefault();
+qDeferred=e;
+document.getElementById('qInstallBtn').textContent='📲 Install App';
 });
+
 async function qInstall(){
-  if(qDeferred){qDeferred.prompt(); await qDeferred.userChoice; qDeferred=null; return;}
-  alert('Chrome ke ⋮ menu me “Install app” ya “Add to Home screen” select karein.');
+if(qDeferred){
+qDeferred.prompt();
+await qDeferred.userChoice;
+qDeferred=null;
+return;
 }
+alert('Chrome ke ⋮ menu me “Install app” ya “Add to Home screen” select karein.');
+}
+
 function qSearch(v){
-  const s=document.getElementById('search');
-  if(s){s.value=v; s.dispatchEvent(new Event('input',{bubbles:true}));}
+const s=document.getElementById('search');
+if(s){
+s.value=v;
+s.dispatchEvent(new Event('input',{bubbles:true}));
 }
-if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.error);
+}
+
+if('serviceWorker' in navigator)
+navigator.serviceWorker.register('./sw.js').catch(console.error);
 </script>
 
-<header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
-<section id="home" class="hero"><div class="hero-copy"><div class="eyebrow">Welcome to QIVORA</div><h1>Discover. Click. Shop.</h1><p>Find trending products in one place and tap <b>BUY NOW</b> to continue to the seller's Meesho page.</p></div><div class="hero-art">🛍️</div></section>
-<main class="container" id="products">
-<div class="section-head"><h2>Shop by category</h2><span id="resultText"></span></div><div id="categories" class="categories"></div>
-<div class="controls"><div class="searchwrap"><span>🔍</span><input id="search" placeholder="Search products..." oninput="render()"></div><select id="sort" class="sort" onchange="render()"><option value="new">Newest first</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="az">Name: A to Z</option></select></div>
-<div id="grid" class="grid"></div></main>
-<footer><div class="footgrid"><div><h3>QIVORA</h3><p>Discover products from different sellers and continue to the seller website to complete your purchase.</p></div><div><h3>Shopping</h3><div class="footlinks"><a href="#products">All Products</a><a href="#categories">Categories</a><a href="#home">Home</a></div></div><div><h3>Information</h3><div class="footlinks"><a href="#" onclick="return false">Privacy Policy</a><a href="#" onclick="return false">Terms</a><a href="#" onclick="return false">Affiliate Disclosure</a></div></div></div><div class="copyright">© <span id="year"></span> QIVORA. Purchases are completed on the linked seller website.</div></footer>
+<header>
+<div class="container nav">
+<div class="logo">QIVORA</div>
 
-<div id="modal" class="modal"><div class="panel"><div class="modalhead"><h2>QIVORA Owner Panel</h2><div class="spacer"></div><button class="btn ghost" onclick="closeAdmin()">✕</button></div><div id="loginBox"><p>Owner sign-in</p><div class="field"><label>Email</label><input id="email" type="email"></div><div class="field"><label>Password</label><input id="pass" type="password"></div><button class="btn primary" onclick="login()">Login</button><div id="loginStatus" class="status"></div></div><div id="adminBox" style="display:none"><div class="notice">Only the configured owner can add or delete products. Visitors can browse products without signing in.</div><div class="row"><div class="field"><label>Product name</label><input id="name"></div><div class="field"><label>Price</label><input id="price" placeholder="₹299"></div></div><div class="row"><div class="field"><label>Category</label><input id="cat" placeholder="Fashion"></div><div class="field"><label>Product photo</label><input id="file" type="file" accept="image/*" onchange="preview()"></div></div><div class="field"><label>Meesho affiliate link</label><input id="link" placeholder="Paste your Meesho tracking link"></div><img id="previewImg" class="preview"><div class="actions"><button class="btn primary" onclick="addProduct()">➕ Add product</button><button class="btn ghost" onclick="logout()">Logout</button></div><div id="saveStatus" class="status"></div><h3>Products</h3><div id="adminList" class="admin-list"></div></div></div></div>
-<div id="detailModal" class="modal"><div class="panel detail"><div class="modalhead"><h2>Product details</h2><div class="spacer"></div><button class="btn ghost" onclick="closeDetail()">✕</button></div><div id="detailContent"></div></div></div>
+<nav class="navlinks">
+<a href="#home">Home</a>
+<a href="#categories">Categories</a>
+<a href="#products">Products</a>
+</nav>
+
+<div class="spacer"></div>
+
+<button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">
+♡<span id="wishCount" class="count">0</span>
+</button>
+
+<button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button>
+</div>
+</header>
+
+<section id="home" class="hero">
+<div class="hero-copy">
+<div class="eyebrow">Welcome to QIVORA</div>
+<h1>Discover. Click. Shop.</h1>
+<p>Find trending products in one place and tap <b>BUY NOW</b> to continue to the seller's Meesho page.</p>
+</div>
+<div class="hero-art">🛍️</div>
+</section>
+
+<main class="container" id="products">
+
+<div class="section-head">
+<h2>Shop by category</h2>
+<span id="resultText"></span>
+</div>
+
+<div id="categories" class="categories"></div>
+
+<div class="controls">
+
+<div class="searchwrap">
+<span>🔍</span>
+<input id="search" placeholder="Search products..." oninput="render()">
+</div>
+
+<select id="sort" class="sort" onchange="render()">
+<option value="new">Newest first</option>
+<option value="low">Price: Low to High</option>
+<option value="high">Price: High to Low</option>
+<option value="az">Name: A to Z</option>
+</select>
+
+</div>
+
+<div id="grid" class="grid"></div>
+
+</main>
+
+<footer>
+<div class="footgrid">
+
+<div>
+<h3>QIVORA</h3>
+<p>Discover products from different sellers and continue to the seller website to complete your purchase.</p>
+</div>
+
+<div>
+<h3>Shopping</h3>
+<div class="footlinks">
+<a href="#products">All Products</a>
+<a href="#categories">Categories</a>
+<a href="#home">Home</a>
+</div>
+</div>
+
+<div>
+<h3>Information</h3>
+<div class="footlinks">
+<a href="#" onclick="return false">Privacy Policy</a>
+<a href="#" onclick="return false">Terms</a>
+<a href="#" onclick="return false">Affiliate Disclosure</a>
+</div>
+</div>
+
+</div>
+
+<div class="copyright">
+© <span id="year"></span> QIVORA. Purchases are completed on the linked seller website.
+</div>
+
+</footer>
+
+<div id="modal" class="modal">
+
+<div class="panel">
+
+<div class="modalhead">
+<h2>QIVORA Owner Panel</h2>
+<div class="spacer"></div>
+<button class="btn ghost" onclick="closeAdmin()">✕</button>
+</div>
+
+<div id="loginBox">
+
+<p>Owner sign-in</p>
+
+<div class="field">
+<label>Email</label>
+<input id="email" type="email">
+</div>
+
+<div class="field">
+<label>Password</label>
+<input id="pass" type="password">
+</div>
+
+<button class="btn primary" onclick="login()">Login</button>
+
+<div id="loginStatus" class="status"></div>
+
+</div>
+
+<div id="adminBox" style="display:none">
+
+<div class="notice">
+Only the configured owner can add or delete products. Visitors can browse products without signing in.
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Product name</label>
+<input id="name">
+</div>
+
+<div class="field">
+<label>Price</label>
+<input id="price" placeholder="₹299">
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Category</label>
+<input id="cat" placeholder="Fashion">
+</div>
+
+<div class="field">
+<label>Product photo</label>
+<input id="file" type="file" accept="image/*" onchange="preview()">
+</div>
+
+</div>
+
+<div class="field">
+<label>Meesho affiliate link</label>
+<input id="link" placeholder="Paste your Meesho tracking link">
+</div>
+
+<img id="previewImg" class="preview">
+
+<div class="actions">
+<button class="btn primary" onclick="addProduct()">➕ Add product</button>
+<button class="btn ghost" onclick="logout()">Logout</button>
+</div>
+
+<div id="saveStatus" class="status"></div>
+
+<h3>Products</h3>
+<div id="adminList" class="admin-list"></div>
+
+</div>
+</div>
+</div>
+
+<div id="authModal" class="modal">
+
+<div class="panel auth-card">
+
+<div class="modalhead">
+<h2>QIVORA Account</h2>
+<div class="spacer"></div>
+<button class="btn ghost" onclick="closeCustomerAuth()">✕</button>
+</div>
+
+<div id="authLoginBox">
+
+<div class="auth-title">Login with mobile</div>
+
+<p class="auth-sub">
+Apne mobile number par OTP mangaye aur QIVORA me sign in karein.
+</p>
+
+<div id="phoneStep">
+
+<div class="field">
+<label>Mobile number</label>
+
+<div class="auth-phone">
+<div class="auth-prefix">+91</div>
+
+<input
+id="customerPhone"
+inputmode="numeric"
+maxlength="10"
+placeholder="9876543210"
+oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)"
+>
+
+</div>
+</div>
+
+<button class="btn primary" style="width:100%" onclick="sendCustomerOtp()">
+📱 Send OTP
+</button>
+
+</div>
+
+<div id="otpStep" style="display:none">
+
+<div class="field">
+
+<label>6-digit OTP</label>
+
+<input
+id="customerOtp"
+class="auth-otp"
+inputmode="numeric"
+maxlength="6"
+placeholder="••••••"
+oninput="this.value=this.value.replace(/\D/g,'').slice(0,6)"
+>
+
+</div>
+
+<button class="btn primary" style="width:100%" onclick="verifyCustomerOtp()">
+✅ Verify OTP
+</button>
+
+<button class="auth-link" onclick="backToPhoneStep()">
+← Change mobile number
+</button>
+
+</div>
+
+<div id="authStatus" class="auth-status"></div>
+
+</div>
+
+<div id="authAccountBox" style="display:none">
+
+<div class="auth-title">My Account</div>
+
+<div class="account-box">
+
+<div class="account-pill">
+<b>👤 QIVORA Customer</b>
+<span id="customerAccountPhone"></span>
+</div>
+
+<button class="btn ghost" onclick="closeCustomerAuth()">
+Continue Shopping
+</button>
+
+<button class="btn" style="background:#fee;color:#c62828" onclick="customerLogout()">
+Logout
+</button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<div id="detailModal" class="modal">
+
+<div class="panel detail">
+
+<div class="modalhead">
+<h2>Product details</h2>
+<div class="spacer"></div>
+<button class="btn ghost" onclick="closeDetail()">✕</button>
+</div>
+
+<div id="detailContent"></div>
+
+</div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
 const SUPABASE_URL="https://dkzdgsuawotvcmemkclm.supabase.co";
+
 const SUPABASE_KEY="sb_publishable_YBsJaTGSo8kQTAxd3Ww-ZA_Q-WMnNKy";
+
 const OWNER_EMAIL="sameerpatel2035@gmail.com";
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let products=[], wishlist=JSON.parse(localStorage.getItem("qivora_wishlist")||"[]"), activeCategory="", publicLoadError="";
+
+const sb=window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+let pendingCustomerPhone="";
+
+function normalizeCustomerPhone(){
+
+const raw=String(
+$("customerPhone")?.value||""
+).replace(/\D/g,"");
+
+if(raw.length!==10 || !/^[6-9]\d{9}$/.test(raw))
+return "";
+
+return "+91"+raw;
+}
+
+function openCustomerAuth(){
+
+$("authModal").classList.add("show");
+
+refreshCustomerAuth();
+
+}
+
+function closeCustomerAuth(){
+
+$("authModal").classList.remove("show");
+
+}
+
+function backToPhoneStep(){
+
+$("phoneStep").style.display="block";
+
+$("otpStep").style.display="none";
+
+$("authStatus").textContent="";
+
+}
+
+async function sendCustomerOtp(){
+
+const phone=normalizeCustomerPhone();
+
+const st=$("authStatus");
+
+if(!phone){
+
+st.textContent="Please enter a valid 10-digit Indian mobile number.";
+
+return;
+}
+
+st.textContent="OTP bheja ja raha hai...";
+
+const {error}=await sb.auth.signInWithOtp({
+
+phone,
+
+options:{
+shouldCreateUser:true
+}
+
+});
+
+if(error){
+
+console.error(error);
+
+st.textContent=
+error.message||"OTP send nahi ho saka.";
+
+return;
+
+}
+
+pendingCustomerPhone=phone;
+
+$("phoneStep").style.display="none";
+
+$("otpStep").style.display="block";
+
+$("customerOtp").focus();
+
+st.textContent=
+"OTP sent. SMS me aaya 6-digit code enter karein.";
+
+}
+
+async function verifyCustomerOtp(){
+
+const token=String(
+$("customerOtp")?.value||""
+).replace(/\D/g,"");
+
+const st=$("authStatus");
+
+if(!pendingCustomerPhone || token.length!==6){
+
+st.textContent="6-digit OTP enter karein.";
+
+return;
+}
+
+st.textContent="OTP verify ho raha hai...";
+
+const {data,error}=await sb.auth.verifyOtp({
+
+phone:pendingCustomerPhone,
+
+token,
+
+type:"sms"
+
+});
+
+if(error){
+
+console.error(error);
+
+st.textContent=
+error.message||"OTP verify nahi hua.";
+
+return;
+
+}
+
+st.textContent="Login successful.";
+
+pendingCustomerPhone="";
+
+refreshCustomerAuth(data?.session?.user);
+
+}
+
+async function customerLogout(){
+
+await sb.auth.signOut();
+
+refreshCustomerAuth();
+
+}
+
+async function refreshCustomerAuth(userArg){
+
+let user=userArg;
+
+if(!user){
+
+try{
+
+const r=await sb.auth.getUser();
+
+user=r.data?.user||null;
+
+}catch(e){
+
+user=null;
+
+}
+
+}
+
+if(user?.phone){
+
+$("authLoginBox").style.display="none";
+
+$("authAccountBox").style.display="block";
+
+$("customerAccountPhone").textContent=user.phone;
+
+$("authStatus").textContent="";
+
+}else{
+
+$("authLoginBox").style.display="block";
+
+$("authAccountBox").style.display="none";
+
+}
+
+}
+
+sb.auth.onAuthStateChange(
+(_event,session)=>{
+
+const user=session?.user||null;
+
+if(user)
+refreshCustomerAuth(user);
+
+}
+);
+
+let products=[],
+wishlist=JSON.parse(
+localStorage.getItem("qivora_wishlist")||"[]"
+),
+activeCategory="",
+publicLoadError="";
+
 const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-const priceNum=v=>parseFloat(String(v??"").replace(/[^0-9.]/g,""))||0;
-const isAdminMode=()=>new URLSearchParams(location.search).get("qivora-admin")==="1";
+
+const esc=s=>String(s??"").replace(
+/[&<>"']/g,
+m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[m])
+);
+
+const priceNum=v=>
+parseFloat(
+String(v??"").replace(/[^0-9.]/g,"")
+)||0;
+
+const isAdminMode=()=>
+new URLSearchParams(location.search)
+.get("qivora-admin")==="1";
 
 async function load(){
-  publicLoadError="";
-  try{
-    const r=await sb.from("products").select("id,name,price,category,image_url,meesho_link,created_at").order("created_at",{ascending:false});
-    if(r.error){console.error(r.error);publicLoadError=r.error.message||"Products could not be loaded.";products=[];}
-    else products=r.data||[];
-  }catch(e){console.error(e);publicLoadError=e?.message||"Products could not be loaded.";products=[];}
-  render();
-}
-function render(){
-  const q=($("search")?.value||"").toLowerCase().trim(), sort=$("sort")?.value||"new";
-  const cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();
-  const list=products.filter(p=>(!q||(`${p.name||""} ${p.category||""}`).toLowerCase().includes(q))&&(!activeCategory||p.category===activeCategory));
-  if(sort==="low")list.sort((a,b)=>priceNum(a.price)-priceNum(b.price));
-  if(sort==="high")list.sort((a,b)=>priceNum(b.price)-priceNum(a.price));
-  if(sort==="az")list.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
-  $("resultText").textContent=publicLoadError?"":`${list.length} product${list.length===1?"":"s"}`;
-  $("categories").innerHTML=`<button class="chip ${!activeCategory?"active":""}" onclick="setCategory('')">All</button>`+cats.map(x=>`<button class="chip ${activeCategory===x?"active":""}" onclick='setCategory(${JSON.stringify(x)})'>${esc(x)}</button>`).join("");
-  if(publicLoadError){
-    $("grid").innerHTML=`<div class="empty"><div style="font-size:34px">⚠️</div><b>Products could not be loaded</b><p style="max-width:600px;margin:10px auto;color:#70707b">${esc(publicLoadError)}</p><button class="btn primary" onclick="load()">↻ Try again</button></div>`;
-  }else if(!list.length){
-    $("grid").innerHTML=`<div class="empty">No products found.<br>Try another search or category.</div>`;
-  }else{
-    $("grid").innerHTML=list.map(p=>{
-      const id=String(p.id), wished=wishlist.includes(id), fresh=new Date(p.created_at||0)>Date.now()-7*864e5;
-      return `<article class="card"><div class="media" onclick="showDetail(${JSON.stringify(id)})"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy"><button class="heart ${wished?"on":""}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(id)})">${wished?"♥":"♡"}</button>${fresh?'<span class="badge">NEW</span>':""}</div><div class="body"><div class="cat">${esc(p.category||"Other")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="showDetail(${JSON.stringify(id)})">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`;
-    }).join("");
-  }
-  $("wishCount").textContent=wishlist.length;$("year").textContent=new Date().getFullYear();
-}
-function setCategory(c){activeCategory=c;render();}
-function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render();}
-function showWishlist(){
-  const list=products.filter(p=>wishlist.includes(String(p.id)));
-  $("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showWishlist()">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join("")}</div>`:`<p class="detailnote">Your wishlist is empty.<br>Tap ♡ on any product to save it.</p>`);
-  $("detailModal").classList.add("show");
-}
-function showDetail(id){
-  const p=products.find(x=>String(x.id)===String(id));if(!p)return;
-  const wished=wishlist.includes(String(p.id));
-  $("detailContent").innerHTML=`<div class="detailbox"><img src="${esc(p.image_url)}" alt="${esc(p.name)}"><div class="detail"><div class="detailcat">${esc(p.category||"Other")}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">Browse this product here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showDetail(${JSON.stringify(String(p.id))})">${wished?"♥ Saved":"♡ Wishlist"}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;
-  $("detailModal").classList.add("show");
-}
-function closeDetail(){$("detailModal").classList.remove("show");}
-function openAdmin(){$("modal").classList.add("show");check();}
-function closeAdmin(){$("modal").classList.remove("show");}
-async function check(){const r=await sb.auth.getSession();if((r.data.session?.user?.email||"").toLowerCase()===OWNER_EMAIL.toLowerCase())showAdmin();}
-async function login(){const email=$("email").value.trim(),password=$("pass").value;$("loginStatus").textContent="Signing in...";const r=await sb.auth.signInWithPassword({email,password});if(r.error){$("loginStatus").textContent=r.error.message;return;}if((r.data.user?.email||"").toLowerCase()!==OWNER_EMAIL.toLowerCase()){await sb.auth.signOut();$("loginStatus").textContent="Not the owner account.";return;}showAdmin();}
-function showAdmin(){$("loginBox").style.display="none";$("adminBox").style.display="block";renderAdmin();}
-async function logout(){await sb.auth.signOut();$("adminBox").style.display="none";$("loginBox").style.display="block";}
-function preview(){const f=$("file").files[0],im=$("previewImg");if(f){im.src=URL.createObjectURL(f);im.style.display="block";}}
-async function addProduct(){
-  const name=$("name").value.trim(),price=$("price").value.trim(),category=$("cat").value.trim()||"Other",link=$("link").value.trim(),file=$("file").files[0];
-  if(!name||!link||!file){alert("Name, photo and Meesho link are required.");return;}
-  const st=$("saveStatus");st.textContent="Uploading photo...";
-  const path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"");
-  const up=await sb.storage.from("product-images").upload(path,file,{contentType:file.type});
-  if(up.error){st.textContent=up.error.message;return;}
-  const url=sb.storage.from("product-images").getPublicUrl(path).data.publicUrl;
-  st.textContent="Saving product...";
-  const ins=await sb.from("products").insert({name,price,category,image_url:url,meesho_link:link});
-  if(ins.error){st.textContent=ins.error.message;return;}
-  st.textContent="Product added successfully.";
-  ["name","price","cat","link"].forEach(id=>$(id).value="");$("file").value="";$("previewImg").style.display="none";
-  await load();renderAdmin();
-}
-async function removeProduct(id){if(!confirm("Delete this product?"))return;const r=await sb.from("products").delete().eq("id",id);if(r.error)alert(r.error.message);await load();renderAdmin();}
-function renderAdmin(){$("adminList").innerHTML=products.map(p=>`<div class="admin-item"><img src="${esc(p.image_url)}"><div><b>${esc(p.name)}</b><div style="font-size:12px;color:#777">${esc(p.price)} · ${esc(p.category||"Other")}</div></div><div class="spacer"></div><button class="btn" style="background:#fee;color:var(--danger)" onclick="removeProduct(${JSON.stringify(String(p.id))})">Delete</button></div>`).join("");}
-if(isAdminMode()){document.body.classList.add("admin-mode");setTimeout(openAdmin,250);}
-load();
-</script>
-</body></html>
+
+publicLoadError="";
+
+try{
+
+const r=await sb
+.from("products")
+.select(
+"id,name,price,category,image_url,meesho_link,created_at"
+)
+.order(
+"created_at",
+{ascending:false}
+);
+
+if(r.error)
