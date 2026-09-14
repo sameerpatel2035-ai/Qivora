@@ -51,7 +51,7 @@ padding:10px 14px;border:1px solid #e5e7eb;border-radius:13px;background:#fff}
 .account-pill{background:#f6f1ff;border-radius:14px;padding:14px}
 .account-pill b{display:block;font-size:18px}
 .account-pill span{color:#70707b;font-size:13px}
-.auth-link{background:none;color:#6c2bd9;font-weight:800;padding:8px 0}
+.auth-link{background:none;color:#6c2bd9;font-weight:800;padding:8px 0}.q-google-login{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;border:1px solid #dadce0;border-radius:12px;background:#fff;color:#202124;font-weight:800;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08)}.q-google-login:hover{background:#f8f9fa}.google-g{font-size:20px;font-weight:900}.customer-avatar{width:54px;height:54px;border-radius:50%;object-fit:cover;margin-bottom:9px}
 </style>
 
 </head><body>
@@ -102,37 +102,13 @@ if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').cat
       <button class="btn ghost" onclick="closeCustomerAuth()">✕</button>
     </div>
 
-    <div id="authLoginBox">
-      <div class="auth-title">Login with mobile</div>
-      <p class="auth-sub">Apne mobile number par OTP mangaye aur QIVORA me sign in karein.</p>
-      <div id="phoneStep">
-        <div class="field">
-          <label>Mobile number</label>
-          <div class="auth-phone">
-            <div class="auth-prefix">+91</div>
-            <input id="customerPhone" inputmode="numeric" maxlength="10" placeholder="9876543210" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)">
-          </div>
-        </div>
-        <button class="btn primary" style="width:100%" onclick="sendCustomerOtp()">📱 Send OTP</button>
-      </div>
-
-      <div id="otpStep" style="display:none">
-        <div class="field">
-          <label>6-digit OTP</label>
-          <input id="customerOtp" class="auth-otp" inputmode="numeric" maxlength="6" placeholder="••••••" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,6)">
-        </div>
-        <button class="btn primary" style="width:100%" onclick="verifyCustomerOtp()">✅ Verify OTP</button>
-        <button class="auth-link" onclick="backToPhoneStep()">← Change mobile number</button>
-      </div>
-      <div id="authStatus" class="auth-status"></div>
-    </div>
-
     <div id="authAccountBox" style="display:none">
       <div class="auth-title">My Account</div>
       <div class="account-box">
         <div class="account-pill">
-          <b>👤 QIVORA Customer</b>
-          <span id="customerAccountPhone"></span>
+          <img id="customerAvatar" class="customer-avatar" alt="Profile" style="display:none">
+          <b id="customerAccountName">👤 QIVORA Customer</b>
+          <span id="customerAccountEmail"></span>
         </div>
         <button class="btn ghost" onclick="closeCustomerAuth()">Continue Shopping</button>
         <button class="btn" style="background:#fee;color:#c62828" onclick="customerLogout()">Logout</button>
@@ -153,13 +129,6 @@ const $=id=>document.getElementById(id);
 
 let products=[], wishlist=JSON.parse(localStorage.getItem("qivora_wishlist")||"[]"), activeCategory="", publicLoadError="";
 
-let pendingCustomerPhone="";
-
-function normalizeCustomerPhone(){
-  const raw=String($("customerPhone")?.value||"").replace(/\D/g,"");
-  if(raw.length!==10 || !/^[6-9]\d{9}$/.test(raw)) return "";
-  return "+91"+raw;
-}
 function openCustomerAuth(){
   $("authModal").classList.add("show");
   refreshCustomerAuth();
@@ -167,58 +136,39 @@ function openCustomerAuth(){
 function closeCustomerAuth(){
   $("authModal").classList.remove("show");
 }
-function backToPhoneStep(){
-  $("phoneStep").style.display="block";
-  $("otpStep").style.display="none";
-  $("authStatus").textContent="";
-}
-async function sendCustomerOtp(){
-  const phone=normalizeCustomerPhone();
+async function googleCustomerLogin(){
   const st=$("authStatus");
-  if(!phone){st.textContent="Please enter a valid 10-digit Indian mobile number.";return;}
-  st.textContent="OTP bheja ja raha hai...";
-  const {error}=await sb.auth.signInWithOtp({phone,options:{shouldCreateUser:true}});
-  if(error){console.error(error);st.textContent=error.message||"OTP send nahi ho saka.";return;}
-  pendingCustomerPhone=phone;
-  $("phoneStep").style.display="none";
-  $("otpStep").style.display="block";
-  $("customerOtp").focus();
-  st.textContent="OTP sent. SMS me aaya 6-digit code enter karein.";
-}
-async function verifyCustomerOtp(){
-  const token=String($("customerOtp")?.value||"").replace(/\D/g,"");
-  const st=$("authStatus");
-  if(!pendingCustomerPhone || token.length!==6){st.textContent="6-digit OTP enter karein.";return;}
-  st.textContent="OTP verify ho raha hai...";
-  const {data,error}=await sb.auth.verifyOtp({phone:pendingCustomerPhone,token,type:"sms"});
-  if(error){console.error(error);st.textContent=error.message||"OTP verify nahi hua.";return;}
-  st.textContent="Login successful.";
-  pendingCustomerPhone="";
-  refreshCustomerAuth(data?.session?.user);
+  st.textContent="Google login opening...";
+  const redirectTo=window.location.origin+window.location.pathname;
+  const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo}});
+  if(error){console.error(error);st.textContent=error.message||"Google login nahi ho saka.";}
 }
 async function customerLogout(){
-  await sb.auth.signOut();
-  refreshCustomerAuth();
+  const {error}=await sb.auth.signOut();
+  if(error){$("authStatus").textContent=error.message;return;}
+  refreshCustomerAuth(null);
 }
 async function refreshCustomerAuth(userArg){
   let user=userArg;
-  if(!user){
+  if(user===undefined){
     try{const r=await sb.auth.getUser();user=r.data?.user||null;}catch(e){user=null;}
   }
-  if(user?.phone){
+  if(user){
     $("authLoginBox").style.display="none";
     $("authAccountBox").style.display="block";
-    $("customerAccountPhone").textContent=user.phone;
     $("authStatus").textContent="";
+    const meta=user.user_metadata||{};
+    $("customerAccountName").textContent=meta.full_name||meta.name||"QIVORA Customer";
+    $("customerAccountEmail").textContent=user.email||"";
+    const avatar=meta.avatar_url||meta.picture||"";
+    const img=$("customerAvatar");
+    if(avatar){img.src=avatar;img.style.display="block";}else img.style.display="none";
   }else{
     $("authLoginBox").style.display="block";
     $("authAccountBox").style.display="none";
   }
 }
-sb.auth.onAuthStateChange((_event,session)=>{
-  const user=session?.user||null;
-  if(user) refreshCustomerAuth(user);
-});
+sb.auth.onAuthStateChange((_event,session)=>{refreshCustomerAuth(session?.user||null);});
 
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 const priceNum=v=>parseFloat(String(v??"").replace(/[^0-9.]/g,""))||0;
