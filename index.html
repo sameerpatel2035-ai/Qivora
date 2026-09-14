@@ -4,6 +4,7 @@
 <meta name="description" content="QIVORA — discover trending products and shop through trusted seller links.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#6c2bd9">
+<link rel="manifest" href="manifest.json">
 <title>QIVORA | Online Shopping</title>
 <style>
 :root{--bg:#f6f6fa;--card:#fff;--text:#18181d;--muted:#70707b;--brand:#6c2bd9;--brand2:#8b4df2;--line:#e7e7ee;--soft:#f0eaff;--good:#16834b;--danger:#c62828;--shadow:0 8px 28px rgba(31,22,56,.08)}
@@ -32,9 +33,7 @@ background:#111827;color:#fff;cursor:pointer}
 
 </head><body>
 <!-- QIVORA CUSTOMER APP START -->
-<meta name="theme-color" content="#ff5a1f">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="manifest" href="manifest.json">
+
 <style>
 .q-app-shell{padding-bottom:76px}
 .q-app-top{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid #eee;padding:10px 12px}
@@ -86,7 +85,7 @@ background:#111827;color:#fff;cursor:pointer}
   window.qOpenLogin=()=>document.getElementById("qAppLogin").style.display="flex";
   window.qCloseLogin=()=>document.getElementById("qAppLogin").style.display="none";
   window.qAppSearch=(v)=>{
-    const el=document.querySelector('#searchInput');
+    const el=document.querySelector('#search');
     if(el){el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));}
   };
   window.qSendOtp=async()=>{
@@ -143,4 +142,4 @@ async function load(){if(!sb){products=[];render();return}let r=await sb.from("p
 function render(){let q=document.getElementById("search").value.toLowerCase().trim(),sort=document.getElementById("sort").value;let cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();let active=window.activeCategory||"";let list=products.filter(p=>(!q||(`${p.name} ${p.category}`).toLowerCase().includes(q))&&(!active||p.category===active));if(sort==="low")list.sort((a,b)=>priceNum(a.price)-priceNum(b.price));if(sort==="high")list.sort((a,b)=>priceNum(b.price)-priceNum(a.price));if(sort==="az")list.sort((a,b)=>String(a.name).localeCompare(String(b.name)));document.getElementById("resultText").textContent=`${list.length} product${list.length===1?"":"s"}`;document.getElementById("categories").innerHTML='<button class="chip '+(!active?'active':'')+'" onclick="setCategory(\"\")">All</button>'+cats.map(x=>`<button class="chip ${active===x?'active':''}" onclick='setCategory(${JSON.stringify(x)})'>${esc(x)}</button>`).join('');document.getElementById("grid").innerHTML=list.length?list.map(p=>`<article class="card"><div class="media" onclick="showDetail(${p.id})"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy"><button class="heart ${wishlist.includes(String(p.id))?'on':''}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(String(p.id))})">${wishlist.includes(String(p.id))?'♥':'♡'}</button>${new Date(p.created_at||0)>Date.now()-7*864e5?'<span class="badge">NEW</span>':''}</div><div class="body"><div class="cat">${esc(p.category)}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="showDetail(${p.id})">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`).join(''):'<div class="empty">No products found. Try another search or category.</div>';document.getElementById("wishCount").textContent=wishlist.length;document.getElementById("year").textContent=new Date().getFullYear()}
 function setCategory(c){window.activeCategory=c;render()}
 function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render()}
-function showWishlist(){let ids=new Set(wishlist),list=products.filter(p=>ids.has(String(p.id)));document.getElementById("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));p
+function showWishlist(){let ids=new Set(wishlist),list=products.filter(p=>ids.has(String(p.id)));document.getElementById("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div
