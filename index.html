@@ -136,4 +136,28 @@ function closeDetail(){$("detailModal").classList.remove("show");}
 function openAdmin(){$("modal").classList.add("show");check();}
 function closeAdmin(){$("modal").classList.remove("show");}
 async function check(){const r=await sb.auth.getSession();if((r.data.session?.user?.email||"").toLowerCase()===OWNER_EMAIL.toLowerCase())showAdmin();}
-async function login(){const email=$("email").value.trim(),password=$("pass").value;$("loginStatus").textContent="Signing in...";const r=await sb.auth.signInWithPassword({email,password});if(r.error){$("loginStatus").textContent=r.error.message;return;}if((r.data.user?.email||"").toLowerCase()!==OWNER_EMAIL.toLowerCase()){awai
+async function login(){const email=$("email").value.trim(),password=$("pass").value;$("loginStatus").textContent="Signing in...";const r=await sb.auth.signInWithPassword({email,password});if(r.error){$("loginStatus").textContent=r.error.message;return;}if((r.data.user?.email||"").toLowerCase()!==OWNER_EMAIL.toLowerCase()){await sb.auth.signOut();$("loginStatus").textContent="Not the owner account.";return;}showAdmin();}
+function showAdmin(){$("loginBox").style.display="none";$("adminBox").style.display="block";renderAdmin();}
+async function logout(){await sb.auth.signOut();$("adminBox").style.display="none";$("loginBox").style.display="block";}
+function preview(){const f=$("file").files[0],im=$("previewImg");if(f){im.src=URL.createObjectURL(f);im.style.display="block";}}
+async function addProduct(){
+  const name=$("name").value.trim(),price=$("price").value.trim(),category=$("cat").value.trim()||"Other",link=$("link").value.trim(),file=$("file").files[0];
+  if(!name||!link||!file){alert("Name, photo and Meesho link are required.");return;}
+  const st=$("saveStatus");st.textContent="Uploading photo...";
+  const path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"");
+  const up=await sb.storage.from("product-images").upload(path,file,{contentType:file.type});
+  if(up.error){st.textContent=up.error.message;return;}
+  const url=sb.storage.from("product-images").getPublicUrl(path).data.publicUrl;
+  st.textContent="Saving product...";
+  const ins=await sb.from("products").insert({name,price,category,image_url:url,meesho_link:link});
+  if(ins.error){st.textContent=ins.error.message;return;}
+  st.textContent="Product added successfully.";
+  ["name","price","cat","link"].forEach(id=>$(id).value="");$("file").value="";$("previewImg").style.display="none";
+  await load();renderAdmin();
+}
+async function removeProduct(id){if(!confirm("Delete this product?"))return;const r=await sb.from("products").delete().eq("id",id);if(r.error)alert(r.error.message);await load();renderAdmin();}
+function renderAdmin(){$("adminList").innerHTML=products.map(p=>`<div class="admin-item"><img src="${esc(p.image_url)}"><div><b>${esc(p.name)}</b><div style="font-size:12px;color:#777">${esc(p.price)} · ${esc(p.category||"Other")}</div></div><div class="spacer"></div><button class="btn" style="background:#fee;color:var(--danger)" onclick="removeProduct(${JSON.stringify(String(p.id))})">Delete</button></div>`).join("");}
+if(isAdminMode()){document.body.classList.add("admin-mode");setTimeout(openAdmin,250);}
+load();
+</script>
+</body></html>
