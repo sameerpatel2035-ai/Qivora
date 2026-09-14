@@ -17,7 +17,107 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
 .modal{display:none;position:fixed;inset:0;background:#0009;z-index:50;padding:16px;overflow:auto}.modal.show{display:block}.panel{max-width:760px;margin:30px auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 20px 60px #0005}.modalhead{display:flex;align-items:center;gap:10px}.modalhead h2{margin:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:850;margin-bottom:5px}.field input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px}.preview{width:110px;height:110px;object-fit:cover;border-radius:11px;display:none;margin-top:8px}.admin-list{display:grid;gap:8px;margin-top:15px}.admin-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:11px}.admin-item img{width:54px;height:54px;object-fit:cover;border-radius:8px}.status{font-size:13px;color:var(--muted);margin-top:8px}.notice{padding:10px 12px;background:#fff5d6;border-radius:10px;color:#6d5300;font-size:13px;margin:12px 0}
 .detail{max-width:900px}.detailbox{display:grid;grid-template-columns:1fr 1fr;gap:22px}.detailbox img{width:100%;border-radius:15px;aspect-ratio:1;object-fit:cover}.detailcat{color:var(--brand);font-weight:900;font-size:12px;text-transform:uppercase}.detail h2{font-size:28px;margin:7px 0}.detailprice{font-size:25px;font-weight:950;margin:12px 0}.detailnote{color:var(--muted);line-height:1.55}
 @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-art{width:180px}}@media(max-width:650px){.navlinks{display:none}.nav{height:58px}.logo{font-size:23px}.hero{margin:12px 10px 0;padding:22px 17px}.hero-art{display:none}.container{padding:0 10px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.name{font-size:14px}.price{font-size:18px}.controls{align-items:stretch;flex-wrap:wrap}.searchwrap{flex-basis:100%}.sort{max-width:none;flex:1}.categories{margin-right:-2px}.footgrid{grid-template-columns:1fr 1fr}.footgrid>div:first-child{grid-column:1/-1}.row,.detailbox{grid-template-columns:1fr}.panel{margin:15px auto;padding:16px}}
-</style></head><body>
+</style>
+<style id="qivora-install-style">
+#qivoraInstallBar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+padding:10px 14px;margin:10px auto;max-width:1200px;border:1px solid #e5e7eb;
+border-radius:14px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.06)}
+#qivoraInstallBar .qi-text{font-weight:700;font-size:14px}
+#qivoraInstallBtn{border:0;border-radius:10px;padding:10px 15px;font-weight:800;
+background:#111827;color:#fff;cursor:pointer}
+#qivoraInstallBtn:hover{opacity:.9}
+@media(max-width:600px){#qivoraInstallBar{margin:8px 10px}.qi-text{font-size:12px!important}
+#qivoraInstallBtn{padding:9px 12px;font-size:12px}}
+</style>
+
+</head><body>
+<!-- QIVORA CUSTOMER APP START -->
+<meta name="theme-color" content="#ff5a1f">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<style>
+.q-app-shell{padding-bottom:76px}
+.q-app-top{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid #eee;padding:10px 12px}
+.q-app-row{display:flex;align-items:center;gap:9px}
+.q-app-logo{font-weight:900;font-size:23px;letter-spacing:1px}
+.q-app-search{flex:1;border:1px solid #ddd;background:#f7f7f7;border-radius:12px;padding:11px}
+.q-app-user{border:0;background:#f1f1f1;border-radius:11px;padding:10px}
+.q-app-nav{position:fixed;bottom:0;left:0;right:0;z-index:1100;background:#fff;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:7px 3px}
+.q-app-nav button{border:0;background:none;font-size:12px;padding:5px 12px}
+.q-app-login{display:none;position:fixed;inset:0;background:#0008;z-index:2000;align-items:flex-end}
+.q-app-login-card{background:#fff;width:100%;max-width:520px;margin:auto;border-radius:22px 22px 0 0;padding:22px}
+.q-app-input{width:100%;box-sizing:border-box;padding:13px;border:1px solid #ddd;border-radius:12px;margin:7px 0}
+</style>
+
+<div class="q-app-shell">
+  <div class="q-app-top">
+    <div class="q-app-row">
+      <div class="q-app-logo">QIVORA</div>
+      <input class="q-app-search" id="qAppSearch" placeholder="Search products..." oninput="qAppSearch(this.value)">
+      <button class="q-app-user" onclick="qOpenLogin()">👤</button>
+    </div>
+  </div>
+</div>
+
+<div class="q-app-login" id="qAppLogin">
+  <div class="q-app-login-card">
+    <button class="q-app-user" style="float:right" onclick="qCloseLogin()">✕</button>
+    <h2>Login to QIVORA</h2>
+    <p>Mobile number se OTP login</p>
+    <input id="qPhone" class="q-app-input" type="tel" placeholder="+91 9876543210">
+    <button class="btn primary" style="width:100%" onclick="qSendOtp()">Send OTP</button>
+    <input id="qOtp" class="q-app-input" inputmode="numeric" placeholder="OTP" style="display:none">
+    <button id="qVerify" class="btn primary" style="width:100%;display:none" onclick="qVerifyOtp()">Verify OTP</button>
+    <p id="qOtpMsg"></p>
+  </div>
+</div>
+
+<div class="q-app-nav">
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})">🏠<br>Home</button>
+  <button onclick="document.getElementById('qAppSearch').focus()">🔎<br>Search</button>
+  <button onclick="typeof showWishlist==='function'&&showWishlist()">❤️<br>Wishlist</button>
+  <button onclick="qOpenLogin()">👤<br>Account</button>
+</div>
+
+<script>
+(function(){
+  const SUPABASE_URL="https://dkzdgsuawotvcmemkclm.supabase.co";
+  const SUPABASE_KEY="sb_publishable_YBsJaTGSo8kQTAxd3Ww-ZA_Q-WMnNKy";
+  window.qOpenLogin=()=>document.getElementById("qAppLogin").style.display="flex";
+  window.qCloseLogin=()=>document.getElementById("qAppLogin").style.display="none";
+  window.qAppSearch=(v)=>{
+    const el=document.querySelector('#searchInput');
+    if(el){el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));}
+  };
+  window.qSendOtp=async()=>{
+    const phone=document.getElementById("qPhone").value.trim();
+    const msg=document.getElementById("qOtpMsg");
+    if(!phone){msg.textContent="Mobile number enter karein.";return;}
+    try{
+      const r=await fetch(SUPABASE_URL+"/auth/v1/otp",{method:"POST",
+        headers:{"apikey":SUPABASE_KEY,"Content-Type":"application/json"},
+        body:JSON.stringify({phone,create_user:true})});
+      if(!r.ok) throw new Error();
+      document.getElementById("qOtp").style.display="block";
+      document.getElementById("qVerify").style.display="block";
+      msg.textContent="OTP bhej diya gaya hai.";
+    }catch(e){msg.textContent="OTP ke liye Supabase Phone Auth/SMS provider enable karna hoga.";}
+  };
+  window.qVerifyOtp=async()=>{
+    const phone=document.getElementById("qPhone").value.trim();
+    const token=document.getElementById("qOtp").value.trim();
+    const msg=document.getElementById("qOtpMsg");
+    try{
+      const r=await fetch(SUPABASE_URL+"/auth/v1/verify",{method:"POST",
+        headers:{"apikey":SUPABASE_KEY,"Content-Type":"application/json"},
+        body:JSON.stringify({phone,token,type:"sms"})});
+      msg.textContent=r.ok?"Login successful ✅":"OTP verify nahi hua.";
+    }catch(e){msg.textContent="OTP verify nahi hua.";}
+  };
+})();
+</script>
+<!-- QIVORA CUSTOMER APP END -->
+
 <header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
 <section id="home" class="hero"><div class="hero-copy"><div class="eyebrow">Welcome to QIVORA</div><h1>Discover. Click. Shop.</h1><p>Find trending products in one place and tap <b>BUY NOW</b> to continue to the seller's Meesho page.</p></div><div class="hero-art">🛍️</div></section>
 <main class="container" id="products">
@@ -29,88 +129,6 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
 <div id="modal" class="modal"><div class="panel"><div class="modalhead"><h2>QIVORA Owner Panel</h2><div class="spacer"></div><button class="btn ghost" onclick="closeAdmin()">✕</button></div><div id="loginBox"><p>Owner sign-in</p><div class="field"><label>Email</label><input id="email" type="email"></div><div class="field"><label>Password</label><input id="pass" type="password"></div><button class="btn primary" onclick="login()">Login</button><div id="loginStatus" class="status"></div></div><div id="adminBox" style="display:none"><div class="notice">Only the configured owner can add or delete products. Visitors can browse products without signing in.</div><div class="row"><div class="field"><label>Product name</label><input id="name"></div><div class="field"><label>Price</label><input id="price" placeholder="₹299"></div></div><div class="row"><div class="field"><label>Category</label><input id="cat" placeholder="Fashion"></div><div class="field"><label>Product photo</label><input id="file" type="file" accept="image/*" onchange="preview()"></div></div><div class="field"><label>Meesho affiliate link</label><input id="link" placeholder="Paste your Meesho tracking link"></div><img id="previewImg" class="preview"><div class="actions"><button class="btn primary" onclick="addProduct()">➕ Add product</button><button class="btn ghost" onclick="logout()">Logout</button></div><div id="saveStatus" class="status"></div><h3>Products</h3><div id="adminList" class="admin-list"></div></div></div></div>
 <div id="detailModal" class="modal"><div class="panel detail"><div class="modalhead"><h2>Product details</h2><div class="spacer"></div><button class="btn ghost" onclick="closeDetail()">✕</button></div><div id="detailContent"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL="https://dkzdgsuawotvcmemkclm.supabase.co";
-const SUPABASE_KEY="sb_publishable_YBsJaTGSo8kQTAxd3Ww-ZA_Q-WMnNKy";
-const OWNER_EMAIL="sameerpatel2035@gmail.com";
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let products=[], wishlist=JSON.parse(localStorage.getItem("qivora_wishlist")||"[]"), activeCategory="", publicLoadError="";
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-const priceNum=v=>parseFloat(String(v??"").replace(/[^0-9.]/g,""))||0;
-const isAdminMode=()=>new URLSearchParams(location.search).get("qivora-admin")==="1";
-
-async function load(){
-  publicLoadError="";
-  try{
-    const r=await sb.from("products").select("id,name,price,category,image_url,meesho_link,created_at").order("created_at",{ascending:false});
-    if(r.error){console.error(r.error);publicLoadError=r.error.message||"Products could not be loaded.";products=[];}
-    else products=r.data||[];
-  }catch(e){console.error(e);publicLoadError=e?.message||"Products could not be loaded.";products=[];}
-  render();
-}
-function render(){
-  const q=($("search")?.value||"").toLowerCase().trim(), sort=$("sort")?.value||"new";
-  const cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();
-  const list=products.filter(p=>(!q||(`${p.name||""} ${p.category||""}`).toLowerCase().includes(q))&&(!activeCategory||p.category===activeCategory));
-  if(sort==="low")list.sort((a,b)=>priceNum(a.price)-priceNum(b.price));
-  if(sort==="high")list.sort((a,b)=>priceNum(b.price)-priceNum(a.price));
-  if(sort==="az")list.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
-  $("resultText").textContent=publicLoadError?"":`${list.length} product${list.length===1?"":"s"}`;
-  $("categories").innerHTML=`<button class="chip ${!activeCategory?"active":""}" onclick="setCategory('')">All</button>`+cats.map(x=>`<button class="chip ${activeCategory===x?"active":""}" onclick='setCategory(${JSON.stringify(x)})'>${esc(x)}</button>`).join("");
-  if(publicLoadError){
-    $("grid").innerHTML=`<div class="empty"><div style="font-size:34px">⚠️</div><b>Products could not be loaded</b><p style="max-width:600px;margin:10px auto;color:#70707b">${esc(publicLoadError)}</p><button class="btn primary" onclick="load()">↻ Try again</button></div>`;
-  }else if(!list.length){
-    $("grid").innerHTML=`<div class="empty">No products found.<br>Try another search or category.</div>`;
-  }else{
-    $("grid").innerHTML=list.map(p=>{
-      const id=String(p.id), wished=wishlist.includes(id), fresh=new Date(p.created_at||0)>Date.now()-7*864e5;
-      return `<article class="card"><div class="media" onclick="showDetail(${JSON.stringify(id)})"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy"><button class="heart ${wished?"on":""}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(id)})">${wished?"♥":"♡"}</button>${fresh?'<span class="badge">NEW</span>':""}</div><div class="body"><div class="cat">${esc(p.category||"Other")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="showDetail(${JSON.stringify(id)})">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`;
-    }).join("");
-  }
-  $("wishCount").textContent=wishlist.length;$("year").textContent=new Date().getFullYear();
-}
-function setCategory(c){activeCategory=c;render();}
-function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render();}
-function showWishlist(){
-  const list=products.filter(p=>wishlist.includes(String(p.id)));
-  $("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showWishlist()">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join("")}</div>`:`<p class="detailnote">Your wishlist is empty.<br>Tap ♡ on any product to save it.</p>`);
-  $("detailModal").classList.add("show");
-}
-function showDetail(id){
-  const p=products.find(x=>String(x.id)===String(id));if(!p)return;
-  const wished=wishlist.includes(String(p.id));
-  $("detailContent").innerHTML=`<div class="detailbox"><img src="${esc(p.image_url)}" alt="${esc(p.name)}"><div class="detail"><div class="detailcat">${esc(p.category||"Other")}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">Browse this product here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))});showDetail(${JSON.stringify(String(p.id))})">${wished?"♥ Saved":"♡ Wishlist"}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;
-  $("detailModal").classList.add("show");
-}
-function closeDetail(){$("detailModal").classList.remove("show");}
-function openAdmin(){$("modal").classList.add("show");check();}
-function closeAdmin(){$("modal").classList.remove("show");}
-async function check(){const r=await sb.auth.getSession();if((r.data.session?.user?.email||"").toLowerCase()===OWNER_EMAIL.toLowerCase())showAdmin();}
-async function login(){const email=$("email").value.trim(),password=$("pass").value;$("loginStatus").textContent="Signing in...";const r=await sb.auth.signInWithPassword({email,password});if(r.error){$("loginStatus").textContent=r.error.message;return;}if((r.data.user?.email||"").toLowerCase()!==OWNER_EMAIL.toLowerCase()){await sb.auth.signOut();$("loginStatus").textContent="Not the owner account.";return;}showAdmin();}
-function showAdmin(){$("loginBox").style.display="none";$("adminBox").style.display="block";renderAdmin();}
-async function logout(){await sb.auth.signOut();$("adminBox").style.display="none";$("loginBox").style.display="block";}
-function preview(){const f=$("file").files[0],im=$("previewImg");if(f){im.src=URL.createObjectURL(f);im.style.display="block";}}
-async function addProduct(){
-  const name=$("name").value.trim(),price=$("price").value.trim(),category=$("cat").value.trim()||"Other",link=$("link").value.trim(),file=$("file").files[0];
-  if(!name||!link||!file){alert("Name, photo and Meesho link are required.");return;}
-  const st=$("saveStatus");st.textContent="Uploading photo...";
-  const path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"");
-  const up=await sb.storage.from("product-images").upload(path,file,{contentType:file.type});
-  if(up.error){st.textContent=up.error.message;return;}
-  const url=sb.storage.from("product-images").getPublicUrl(path).data.publicUrl;
-  st.textContent="Saving product...";
-  const ins=await sb.from("products").insert({name,price,category,image_url:url,meesho_link:link});
-  if(ins.error){st.textContent=ins.error.message;return;}
-  st.textContent="Product added successfully.";
-  ["name","price","cat","link"].forEach(id=>$(id).value="");$("file").value="";$("previewImg").style.display="none";
-  await load();renderAdmin();
-}
-async function removeProduct(id){if(!confirm("Delete this product?"))return;const r=await sb.from("products").delete().eq("id",id);if(r.error)alert(r.error.message);await load();renderAdmin();}
-function renderAdmin(){$("adminList").innerHTML=products.map(p=>`<div class="admin-item"><img src="${esc(p.image_url)}"><div><b>${esc(p.name)}</b><div style="font-size:12px;color:#777">${esc(p.price)} · ${esc(p.category||"Other")}</div></div><div class="spacer"></div><button class="btn" style="background:#fee;color:var(--danger)" onclick="removeProduct(${JSON.stringify(String(p.id))})">Delete</button></div>`).join("");}
-if(isAdminMode()){document.body.classList.add("admin-mode");setTimeout(openAdmin,250);}
-load();
-</script>
 <script>
 // Keep these 3 values exactly as configured in your current working QIVORA V4.
 const SUPABASE_URL="https://dkzdgsuawotvcmemkclm.supabase.co";
@@ -125,19 +143,4 @@ async function load(){if(!sb){products=[];render();return}let r=await sb.from("p
 function render(){let q=document.getElementById("search").value.toLowerCase().trim(),sort=document.getElementById("sort").value;let cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();let active=window.activeCategory||"";let list=products.filter(p=>(!q||(`${p.name} ${p.category}`).toLowerCase().includes(q))&&(!active||p.category===active));if(sort==="low")list.sort((a,b)=>priceNum(a.price)-priceNum(b.price));if(sort==="high")list.sort((a,b)=>priceNum(b.price)-priceNum(a.price));if(sort==="az")list.sort((a,b)=>String(a.name).localeCompare(String(b.name)));document.getElementById("resultText").textContent=`${list.length} product${list.length===1?"":"s"}`;document.getElementById("categories").innerHTML='<button class="chip '+(!active?'active':'')+'" onclick="setCategory(\"\")">All</button>'+cats.map(x=>`<button class="chip ${active===x?'active':''}" onclick='setCategory(${JSON.stringify(x)})'>${esc(x)}</button>`).join('');document.getElementById("grid").innerHTML=list.length?list.map(p=>`<article class="card"><div class="media" onclick="showDetail(${p.id})"><img class="pic" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy"><button class="heart ${wishlist.includes(String(p.id))?'on':''}" onclick="event.stopPropagation();toggleWish(${JSON.stringify(String(p.id))})">${wishlist.includes(String(p.id))?'♥':'♡'}</button>${new Date(p.created_at||0)>Date.now()-7*864e5?'<span class="badge">NEW</span>':''}</div><div class="body"><div class="cat">${esc(p.category)}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="showDetail(${p.id})">View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`).join(''):'<div class="empty">No products found. Try another search or category.</div>';document.getElementById("wishCount").textContent=wishlist.length;document.getElementById("year").textContent=new Date().getFullYear()}
 function setCategory(c){window.activeCategory=c;render()}
 function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render()}
-function showWishlist(){let ids=new Set(wishlist),list=products.filter(p=>ids.has(String(p.id)));document.getElementById("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(p.image_url)}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))};showWishlist())">Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join('')}</div>`:'<p class="detailnote">Your wishlist is empty. Tap ♡ on any product to save it.</p>';document.getElementById("detailModal").classList.add("show")}
-function showDetail(id){let p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById("detailContent").innerHTML=`<div class="detailbox"><img src="${esc(p.image_url)}" alt="${esc(p.name)}"><div class="detail"><div class="detailcat">${esc(p.category)}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">Browse this product here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button class="btn details" onclick="toggleWish(${JSON.stringify(String(p.id))})">${wishlist.includes(String(p.id))?'♥ Saved':'♡ Wishlist'}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;document.getElementById("detailModal").classList.add("show")}
-function closeDetail(){document.getElementById("detailModal").classList.remove("show")}
-function openAdmin(){document.getElementById("modal").classList.add("show");if(!configured)document.getElementById("loginStatus").textContent="Supabase is not configured yet.";else check()}
-function closeAdmin(){document.getElementById("modal").classList.remove("show")}
-async function check(){let r=await sb.auth.getSession();if(r.data.session?.user?.email===OWNER_EMAIL)showAdmin()}
-async function login(){let email=document.getElementById("email").value.trim(),password=document.getElementById("pass").value;document.getElementById("loginStatus").textContent="Signing in...";let r=await sb.auth.signInWithPassword({email,password});if(r.error){document.getElementById("loginStatus").textContent=r.error.message;return}if(r.data.user.email!==OWNER_EMAIL){await sb.auth.signOut();document.getElementById("loginStatus").textContent="Not the owner account.";return}showAdmin()}
-function showAdmin(){document.getElementById("loginBox").style.display="none";document.getElementById("adminBox").style.display="block";renderAdmin()}
-async function logout(){await sb.auth.signOut();document.getElementById("adminBox").style.display="none";document.getElementById("loginBox").style.display="block"}
-function preview(){let f=document.getElementById("file").files[0],im=document.getElementById("previewImg");if(f){im.src=URL.createObjectURL(f);im.style.display="block"}}
-async function addProduct(){let name=document.getElementById("name").value.trim(),price=document.getElementById("price").value.trim(),category=document.getElementById("cat").value.trim()||"Other",link=document.getElementById("link").value.trim(),file=document.getElementById("file").files[0];if(!name||!link||!file){alert("Name, photo and Meesho link are required.");return}let st=document.getElementById("saveStatus");st.textContent="Uploading photo...";let path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"");let up=await sb.storage.from("product-images").upload(path,file,{contentType:file.type});if(up.error){st.textContent=up.error.message;return}let url=sb.storage.from("product-images").getPublicUrl(path).data.publicUrl;let ins=await sb.from("products").insert({name,price,category,image_url:url,meesho_link:link});if(ins.error){st.textContent=ins.error.message;return}st.textContent="Product added successfully.";["name","price","cat","link"].forEach(id=>document.getElementById(id).value="");document.getElementById("file").value="";document.getElementById("previewImg").style.display="none";await load();renderAdmin()}
-async function removeProduct(id){if(!confirm("Delete this product?"))return;let r=await sb.from("products").delete().eq("id",id);if(r.error)alert(r.error.message);await load();renderAdmin()}
-function renderAdmin(){document.getElementById("adminList").innerHTML=products.map(p=>`<div class="admin-item"><img src="${esc(p.image_url)}"><div><b>${esc(p.name)}</b><div style="font-size:12px;color:#777">${esc(p.price)} · ${esc(p.category)}</div></div><div class="spacer"></div><button class="btn" style="background:#fee;color:var(--danger)" onclick="removeProduct(${p.id})">Delete</button></div>`).join("")}
-if(isAdminMode()){document.body.classList.add("admin-mode");setTimeout(()=>openAdmin(),250)}
-load();
-</script></body></html>
+function showWishlist(){let ids=new Set(wishlist),list=products.filter(p=>ids.has(String(p.id)));document.getElementById("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));p
