@@ -32,10 +32,6 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 16px;color:
   #qAppNav button{background:none;border:0;font-size:11px;padding:4px 10px}
   body{padding-bottom:48px}
 }
-#qInstall{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:1180px;margin:10px auto;
-padding:10px 14px;border:1px solid #e5e7eb;border-radius:13px;background:#fff}
-#qInstall button{background:#111827;color:#fff;border:0;border-radius:10px;padding:9px 13px;font-weight:800}
-@media(max-width:650px){#qInstall{margin:8px 10px;font-size:12px}}
 </style>
 
 <style id="qivora-auth-ui">
@@ -52,10 +48,11 @@ padding:10px 14px;border:1px solid #e5e7eb;border-radius:13px;background:#fff}
 .account-pill b{display:block;font-size:18px}
 .account-pill span{color:#70707b;font-size:13px}
 .auth-link{background:none;color:#6c2bd9;font-weight:800;padding:8px 0}.q-google-login{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;border:1px solid #dadce0;border-radius:12px;background:#fff;color:#202124;font-weight:800;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08)}.q-google-login:hover{background:#f8f9fa}.google-g{font-size:20px;font-weight:900}.customer-avatar{width:54px;height:54px;border-radius:50%;object-fit:cover;margin-bottom:9px}
+
+.profile-preview{display:flex;align-items:center;gap:14px;padding:12px;background:#f7f4ff;border-radius:14px;margin:10px 0 14px}.profile-photo{width:72px;height:72px;border-radius:50%;object-fit:cover;background:#eee;border:2px solid #e7ddff}.cart-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-weight:900}
 </style>
 
 </head><body>
-<div id="qInstall"><b>🛍️ QIVORA Shopping App</b><button id="qInstallBtn" onclick="qInstall()">📲 Install App</button></div>
 <div id="qAppBar">
   <div class="qlogo">Q</div>
   <input id="qMobileSearch" placeholder="Search products..." oninput="qSearch(this.value)">
@@ -68,23 +65,11 @@ padding:10px 14px;border:1px solid #e5e7eb;border-radius:13px;background:#fff}
   <button type="button" onclick="openCustomerAuth()">👤<br>Account</button>
 </div>
 <script>
-let qDeferred=null;
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault(); qDeferred=e;
-  document.getElementById('qInstallBtn').textContent='📲 Install App';
-});
-async function qInstall(){
-  if(qDeferred){qDeferred.prompt(); await qDeferred.userChoice; qDeferred=null; return;}
-  alert('Chrome ke ⋮ menu me “Install app” ya “Add to Home screen” select karein.');
-}
-function qSearch(v){
-  const s=document.getElementById('search');
-  if(s){s.value=v; s.dispatchEvent(new Event('input',{bubbles:true}));}
-}
-if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).finally(()=>navigator.serviceWorker.register('./sw.js?v=8')).catch(console.error);
+function qSearch(v){const s=document.getElementById('search');if(s){s.value=v;s.dispatchEvent(new Event('input',{bubbles:true}));}}
+if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).finally(()=>navigator.serviceWorker.register('./sw.js?v=9')).catch(console.error);
 </script>
 
-<header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
+<header><div class="container nav"><div class="logo">QIVORA</div><nav class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Products</a></nav><div class="spacer"></div><button id="wishlistBtn" class="iconbtn" title="Wishlist" onclick="showWishlist()">♡<span id="wishCount" class="count">0</span></button><button id="cartBtn" class="iconbtn" title="Cart" onclick="showCart()">🛒<span id="cartCount" class="count">0</span></button><button id="adminBtn" class="btn ghost admin-trigger" onclick="openAdmin()">🔐 Owner</button></div></header>
 <section id="home" class="hero"><div class="hero-copy"><div class="eyebrow">Welcome to QIVORA</div><h1>Discover. Click. Shop.</h1><p>Find trending products in one place and tap <b>BUY NOW</b> to continue to the seller's Meesho page.</p></div><div class="hero-art">🛍️</div></section>
 <main class="container" id="products">
 <div class="section-head"><h2>Shop by category</h2><span id="resultText"></span></div><div id="categories" class="categories"></div>
@@ -120,12 +105,29 @@ if('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then
           <b id="customerAccountName">👤 QIVORA Customer</b>
           <span id="customerAccountEmail"></span>
         </div>
-        <button class="btn ghost" onclick="closeCustomerAuth()">Continue Shopping</button>
-        <button class="btn" style="background:#fee;color:#c62828" onclick="customerLogout()">Logout</button>
+        <button type="button" class="btn primary" onclick="openProfile()">👤 My Profile</button>
+        <button type="button" class="btn ghost" onclick="showWishlist();closeCustomerAuth()">❤️ My Wishlist</button>
+        <button type="button" class="btn ghost" onclick="showCart();closeCustomerAuth()">🛒 My Cart</button>
+        <button type="button" class="btn ghost" onclick="closeCustomerAuth()">Continue Shopping</button>
+        <button type="button" class="btn" style="background:#fee;color:#c62828" onclick="customerLogout()">Logout</button>
       </div>
     </div>
   </div>
 </div>
+
+<div id="profileModal" class="modal">
+  <div class="panel auth-card">
+    <div class="modalhead"><h2>My Profile</h2><div class="spacer"></div><button type="button" class="btn ghost" onclick="closeProfile()">✕</button></div>
+    <div class="profile-preview"><img id="profilePhotoPreview" class="profile-photo" alt="Profile photo"><div><b>Profile photo</b><p class="detailnote">Choose a photo from your phone.</p></div></div>
+    <div class="field"><label>Profile photo</label><input id="profilePhoto" type="file" accept="image/*" onchange="previewProfilePhoto()"></div>
+    <div class="field"><label>Name</label><input id="profileName" maxlength="60" placeholder="Your name"></div>
+    <div class="field"><label>Date of birth</label><input id="profileDob" type="date"></div>
+    <div id="profileStatus" class="status"></div>
+    <div class="actions"><button type="button" class="btn primary" onclick="saveProfile()">💾 Save Profile</button><button type="button" class="btn ghost" onclick="closeProfile()">Cancel</button></div>
+  </div>
+</div>
+
+<div id="cartModal" class="modal"><div class="panel detail"><div class="modalhead"><h2>🛒 My Cart</h2><div class="spacer"></div><button type="button" class="btn ghost" onclick="closeCart()">✕</button></div><div id="cartContent"></div></div></div>
 
 <div id="detailModal" class="modal"><div class="panel detail"><div class="modalhead"><h2>Product details</h2><div class="spacer"></div><button class="btn ghost" onclick="closeDetail()">✕</button></div><div id="detailContent"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -137,7 +139,7 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const $=id=>document.getElementById(id);
 
-let products=[], wishlist=JSON.parse(localStorage.getItem("qivora_wishlist")||"[]"), activeCategory="", publicLoadError="";
+let products=[], wishlist=JSON.parse(localStorage.getItem("qivora_wishlist")||"[]"), cart=JSON.parse(localStorage.getItem("qivora_cart")||"[]"), activeCategory="", publicLoadError="";
 
 function openCustomerAuth(){
   $("authModal").classList.add("show");
@@ -168,9 +170,9 @@ async function refreshCustomerAuth(userArg){
     $("authAccountBox").style.display="block";
     $("authStatus").textContent="";
     const meta=user.user_metadata||{};
-    $("customerAccountName").textContent=meta.full_name||meta.name||"QIVORA Customer";
+    $("customerAccountName").textContent=localStorage.getItem("qivora_profile_name")||meta.full_name||meta.name||"QIVORA Customer";
     $("customerAccountEmail").textContent=user.email||"";
-    const avatar=meta.avatar_url||meta.picture||"";
+    const avatar=localStorage.getItem("qivora_profile_photo")||meta.avatar_url||meta.picture||"";
     const img=$("customerAvatar");
     if(avatar){img.src=avatar;img.style.display="block";}else img.style.display="none";
   }else{
@@ -216,13 +218,65 @@ function render(){
   }else{
     $("grid").innerHTML=list.map(p=>{
       const id=String(p.id), wished=wishlist.includes(id), fresh=new Date(p.created_at||0)>Date.now()-7*864e5;
-      return `<article class="card"><div class="media" onclick='showDetail(${JSON.stringify(id)})'><img class="pic" src="${esc(productMainImage(p))}" alt="${esc(p.name)}" loading="lazy"><button type="button" class="heart ${wished?"on":""}" onclick='event.stopPropagation();toggleWish(${JSON.stringify(id)});return false;'>${wished?"♥":"♡"}</button>${fresh?'<span class="badge">NEW</span>':""}</div><div class="body"><div class="cat">${esc(p.category||"Other")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button type="button" class="btn details" onclick='showDetail(${JSON.stringify(id)});return false;'>View</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></article>`;
+      return `<article class="card"><div class="media" onclick='showDetail(${JSON.stringify(id)})'><img class="pic" src="${esc(productMainImage(p))}" alt="${esc(p.name)}" loading="lazy"><button type="button" class="heart ${wished?"on":""}" onclick='event.stopPropagation();toggleWish(${JSON.stringify(id)});return false;'>${wished?"♥":"♡"}</button>${fresh?'<span class="badge">NEW</span>':""}</div><div class="body"><div class="cat">${esc(p.category||"Other")}</div><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button type="button" class="btn details" onclick='showDetail(${JSON.stringify(id)});return false;'>View</button><button type="button" class="btn ghost" onclick='addToCart(${JSON.stringify(id)});return false;'>🛒 Cart</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`;
     }).join("");
   }
   $("wishCount").textContent=wishlist.length;$("year").textContent=new Date().getFullYear();
 }
 function setCategory(c){activeCategory=c;render();}
 function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem("qivora_wishlist",JSON.stringify(wishlist));render();}
+function addToCart(id){
+  id=String(id);
+  if(!cart.includes(id)) cart.push(id);
+  localStorage.setItem("qivora_cart",JSON.stringify(cart));
+  render();
+  alert("Added to cart 🛒");
+}
+function removeFromCart(id){cart=cart.filter(x=>x!==String(id));localStorage.setItem("qivora_cart",JSON.stringify(cart));showCart();render();}
+function showCart(){
+  const list=products.filter(p=>cart.includes(String(p.id)));
+  const total=list.reduce((sum,p)=>sum+priceNum(p.price),0);
+  $("cartContent").innerHTML=list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(productMainImage(p))}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button type="button" class="btn details" onclick='removeFromCart(${JSON.stringify(String(p.id))})'>Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join("")}</div><div class="cart-total"><span>Total</span><span>₹${total.toFixed(0)}</span></div>`:`<p class="detailnote">Your cart is empty.<br>Tap 🛒 Cart on a product to add it.</p>`;
+  $("cartModal").classList.add("show");
+}
+function closeCart(){$("cartModal").classList.remove("show");}
+function openProfile(){
+  refreshCustomerAuth();
+  sb.auth.getUser().then(({data})=>{
+    const user=data?.user;if(!user){closeCustomerAuth();openCustomerAuth();return;}
+    const meta=user.user_metadata||{};
+    $("profileName").value=localStorage.getItem("qivora_profile_name")||meta.full_name||meta.name||"";
+    $("profileDob").value=localStorage.getItem("qivora_profile_dob")||meta.date_of_birth||"";
+    const photo=localStorage.getItem("qivora_profile_photo")||meta.avatar_url||meta.picture||"";
+    $("profilePhotoPreview").src=photo||"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Crect width='100%25' height='100%25' fill='%23eee'/%3E%3Ctext x='50%25' y='55%25' text-anchor='middle' font-size='30'%3E👤%3C/text%3E%3C/svg%3E";
+    $("profileStatus").textContent="";
+    $("profileModal").classList.add("show");
+  });
+}
+function closeProfile(){$("profileModal").classList.remove("show");}
+function previewProfilePhoto(){
+  const f=$("profilePhoto").files[0];if(!f)return;
+  const reader=new FileReader();reader.onload=()=>$("profilePhotoPreview").src=reader.result;reader.readAsDataURL(f);
+}
+function saveProfile(){
+  sb.auth.getUser().then(async({data})=>{
+    const user=data?.user;if(!user){$("profileStatus").textContent="Please login first.";return;}
+    const name=$("profileName").value.trim(),dob=$("profileDob").value, file=$("profilePhoto").files[0],st=$("profileStatus");
+    if(!name){st.textContent="Name is required.";return;}
+    st.textContent="Saving...";
+    let photo=localStorage.getItem("qivora_profile_photo")||"";
+    if(file){
+      photo=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const c=document.createElement("canvas"),max=500,scale=Math.min(1,max/Math.max(img.width,img.height));c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext("2d").drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL("image/jpeg",.82));};img.onerror=reject;img.src=r.result;};r.onerror=reject;r.readAsDataURL(file);});
+      localStorage.setItem("qivora_profile_photo",photo);
+    }
+    localStorage.setItem("qivora_profile_name",name);localStorage.setItem("qivora_profile_dob",dob);
+    const {error}=await sb.auth.updateUser({data:{full_name:name,name:name,date_of_birth:dob}});
+    if(error){st.textContent=error.message;return;}
+    $("customerAccountName").textContent=name;const av=$("customerAvatar");if(photo){av.src=photo;av.style.display="block";}
+    st.textContent="Profile saved successfully ✅";
+  }).catch(e=>$("profileStatus").textContent=e?.message||"Profile save nahi hua.");
+}
+
 function showWishlist(){
   const list=products.filter(p=>wishlist.includes(String(p.id)));
   $("detailContent").innerHTML=`<h3>❤️ My Wishlist</h3>`+(list.length?`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding-bottom:0">${list.map(p=>`<article class="card"><img class="pic" src="${esc(productMainImage(p))}"><div class="body"><div class="name">${esc(p.name)}</div><div class="price">${esc(p.price||"")}</div><div class="actions"><button class="btn details" onclick='toggleWish(${JSON.stringify(String(p.id))});showWishlist()'>Remove</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></article>`).join("")}</div>`:`<p class="detailnote">Your wishlist is empty.<br>Tap ♡ on any product to save it.</p>`);
@@ -233,7 +287,7 @@ function showDetail(id){
   const imgs=getProductImages(p),wished=wishlist.includes(String(p.id));
   window.qDetailImages=imgs;
   const thumbs=imgs.length>1?`<div class="thumbs">${imgs.map((u,i)=>`<button type="button" class="thumb" onclick="setDetailImage(${i})"><img src="${esc(u)}" alt="${esc(p.name)} ${i+1}"></button>`).join("")}</div>`:"";
-  $('detailContent').innerHTML=`<div class="detailbox"><div><img id="detailMainImage" src="${esc(imgs[0]||"")}" alt="${esc(p.name)}" class="detail-main-img">${thumbs}</div><div class="detail"><div class="detailcat">${esc(p.category||"Other")}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">View all product photos here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button type="button" class="btn details" onclick='toggleWish(${JSON.stringify(String(p.id))});showDetail(${JSON.stringify(String(p.id))})'>${wished?"♥ Saved":"♡ Wishlist"}</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">🛒 BUY NOW</a></div></div></div>`;
+  $('detailContent').innerHTML=`<div class="detailbox"><div><img id="detailMainImage" src="${esc(imgs[0]||"")}" alt="${esc(p.name)}" class="detail-main-img">${thumbs}</div><div class="detail"><div class="detailcat">${esc(p.category||"Other")}</div><h2>${esc(p.name)}</h2><div class="detailprice">${esc(p.price||"")}</div><p class="detailnote">View all product photos here, then use BUY NOW to continue to the linked seller page on Meesho.</p><div class="actions"><button type="button" class="btn details" onclick='toggleWish(${JSON.stringify(String(p.id))});showDetail(${JSON.stringify(String(p.id))})'>${wished?"♥ Saved":"♡ Wishlist"}</button><button type="button" class="btn ghost" onclick='addToCart(${JSON.stringify(String(p.id))})'>🛒 Add to Cart</button><a class="btn primary" target="_blank" rel="nofollow sponsored noopener" href="${esc(p.meesho_link)}">BUY NOW</a></div></div></div>`;
   $('detailModal').classList.add('show');
 }
 function setDetailImage(i){const u=window.qDetailImages?.[i];if(u)$('detailMainImage').src=u}
